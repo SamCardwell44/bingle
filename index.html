@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingle - Daily Game Challenge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Bingle</h1>
+        <p class="tagline">Your daily mini-game challenge</p>
+        <p id="date-display"></p>
+    </header>
+
+    <main>
+        <div class="controls">
+            <div class="grid-size">
+                <label for="grid-size-selector">Grid Size:</label>
+                <select id="grid-size-selector">
+                    <option value="3">3x3</option>
+                    <option value="4">4x4</option>
+                    <option value="5">5x5</option>
+                </select>
+            </div>
+        </div>
+        <div class="running-score">
+            <h2>Current Score: <span id="total-score">0</span></h2>
+        </div>
+
+        <div id="game-grid" class="grid-container"></div>
+
+        <div class="controls bottom">
+            <button id="reset-progress">Reset Progress</button>
+        </div>
+    </main>
+
+    <div class="score-summary">
+        <h2>Your Progress</h2>
+        <div id="score-display">
+            <div class="score-card">
+                <span class="score-label">Flawless (3 pts):</span>
+                <span id="flawless-count" class="score-value">0</span>
+            </div>
+            <div class="score-card">
+                <span class="score-label">Below Par (2 pts):</span>
+                <span id="below-par-count" class="score-value">0</span>
+            </div>
+            <div class="score-card">
+                <span class="score-label">Above Par (1 pt):</span>
+                <span id="above-par-count" class="score-value">0</span>
+            </div>
+            <div class="score-card">
+                <span class="score-label">Failed (-1 pt):</span>
+                <span id="incomplete-count" class="score-value">0</span>
+            </div>
+        </div>
+        <div class="total-score-section">
+            <div class="score-row">
+                <span>Base Score:</span>
+                <span id="base-score">0</span>
+            </div>
+            <div class="score-row">
+                <span>Bonus Points:</span>
+                <span id="bonus-points">0</span>
+            </div>
+            <div class="score-row total">
+                <span>Total Score:</span>
+                <span id="total-score">0</span>
+            </div>
+        </div>
+        <div id="daily-bonus" class="bonus-display">
+            <!-- Bonus points will be displayed here -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="instructions">
+            <h3>How to Play</h3>
+            <ol>
+                <li>Click on any game in the grid to play it (opens in a new tab)</li>
+                <li>After playing, enter your score:
+                    <ul>
+                        <li><span class="flawless-text">Flawless</span>: First guess, full points, no mistakes (3 points)</li>
+                        <li><span class="below-par-text">Below Par</span>: Better than par score (2 points)</li>
+                        <li><span class="above-par-text">Above Par</span>: Worse than par but completed (1 point)</li>
+                        <li><span class="incomplete-text">Failed</span>: Failed to complete (-1 point)</li>
+                    </ul>
+                </li>
+                <li>Complete rows, columns, or diagonals for bonus points!</li>
+                <li>A new grid is generated daily</li>
+            </ol>
+        </div>
+        <p class="copyright">Created by [Your Name] - 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
