@@ -199,7 +199,7 @@ function generateDailyGrid() {
     
     // Use date as seed for consistent daily generation
     const today = new Date();
-    const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+    const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234;
     
     // Pseudo-random number generator with seed
     const seededRandom = function() {

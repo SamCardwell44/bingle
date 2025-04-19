@@ -115,6 +115,9 @@ select {
 }
 
 .grid-cell {
+    aspect-ratio: 1 / 1; /* keeps square shape */
+    width: 100%;
+    height: auto;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -124,7 +127,6 @@ select {
     flex-direction: column;
     position: relative;
     border-left: 5px solid #bdc3c7;
-    height: 100%; /* Make all cells the same height */
     min-height: 200px; /* Set minimum height */
 }
 
@@ -193,6 +195,7 @@ select {
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .input-container {
@@ -272,6 +275,11 @@ select {
 
 .incomplete-text {
     color: var(--incomplete-color);
+    font-weight: bold;
+}
+
+.unattempted-text {
+    color: var(--unattempted-color);
     font-weight: bold;
 }
 
