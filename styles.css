@@ -229,7 +229,7 @@ select {
 }
 
 .running-score h1 {
-    font-size: 5rem;
+    font-size: clamp(2rem, 8vw, 5rem);
     color: #2c3e50;
     font-weight: bold;
 }
