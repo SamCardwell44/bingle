@@ -30,8 +30,9 @@ body {
     color: var(--text-color);
     background-color: var(--light-bg);
     padding: 20px;
-    max-width: 1000px;
     margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
 }
 
 /* Header Styles */
@@ -105,9 +106,12 @@ select {
 
 /* Game Grid */
 .grid-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
     display: grid;
-    gap: 15px;
-    margin-bottom: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* responsive layout */
+    gap: 10px;
 }
 
 .grid-cell {
@@ -369,6 +373,9 @@ select {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .instructions h3 {
