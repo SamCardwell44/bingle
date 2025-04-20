@@ -86,27 +86,12 @@
         </div>
     </div>
     
-    <div id="custom-seed-panel" class="custom-seed-panel">
-        <div class="seed-header">
-            <h3>Custom Seed</h3>
-            <button id="toggle-seed-panel" onclick="toggleCustomSeedPanel()">+</button>
-        </div>
-        <div class="seed-content">
-            <p>Enter a custom seed to generate a specific grid:</p>
-            <div class="seed-input-container">
-                <input type="text" id="custom-seed-input" placeholder="Enter seed...">
-                <button id="apply-seed" onclick="handleCustomSeedSubmit()">Apply</button>
-            </div>
-            <p class="seed-warning">Warning: Using a custom seed will reset your current progress!</p>
-        </div>
-    </div>
-
     <footer>
         <div class="instructions">
             <h3>How to Play</h3>
             <ol>
-                <li>Click on any game in the grid to play it (opens in a new tab)</li>
-                <li>After playing, enter your score (based on the par metric, e.g how many guesses it took, mistakes you made or hint you used,). Squares score as follows:
+                <li>Click on any game in the grid to play it (opens in a new tab). Each game is assigned a difficulty, which determines the par score for that game.</li>
+                <li>After playing, enter your score (based on the par metric, e.g how many guesses it took, mistakes you made or hints you used). Squares score as follows:
                     <ul>
                         <li><span class="unattempted-text">Unattempted</span>: Not attempted (0 points)</li>
                         <li><span class="flawless-text">Flawless</span>: First guess, full points, no mistakes (3 points)</li>
@@ -115,9 +100,24 @@
                         <li><span class="incomplete-text">Failed</span>: Failed to complete (-1 point)</li>
                     </ul>
                 </li>
-                <li>Complete rows, columns, or diagonals for bonus points!</li>
-                <li>A new grid is generated daily</li>
+                <li>Completed rows, columns or diaganols score as many points as squares in that row, column or diaganol. E.g in a 3x3 it is worth 3 bonus points.</li>
+                <li>You have a limited number of game rerolls if there is a game you do not want to complete. Click on the reroll buttton and then the square you wish to reroll.</li>
+                <li>A new grid is generated daily, or you can edit the seed below this to create a custom grid.</li>
             </ol>
+        </div>
+        <div id="custom-seed-panel" class="custom-seed-panel">
+            <div class="seed-header">
+                <h3>Custom Seed</h3>
+                <button id="toggle-seed-panel" onclick="toggleCustomSeedPanel()">+</button>
+            </div>
+            <div class="seed-content">
+                <p>Enter a custom seed to generate a specific grid:</p>
+                <div class="seed-input-container">
+                    <input type="text" id="custom-seed-input" placeholder="Enter seed...">
+                    <button id="apply-seed" onclick="handleCustomSeedSubmit()">Apply</button>
+                </div>
+                <p class="seed-warning">Warning: Using a custom seed will reset your current progress!</p>
+            </div>
         </div>
         <p class="copyright">Created by Samuel Cardwell - 2025</p>
         <p class="copyright"><a href="https://bsky.app/profile/samcardwell44.bsky.social" target="_blank" rel="noopener noreferrer">Follow my work</a></p>
