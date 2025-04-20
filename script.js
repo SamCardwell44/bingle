@@ -4,10 +4,10 @@ const gamesList = [
     { id: 2, name: "Worldle", url: "https://worldle.teuteuf.fr/", scoring: "guesses6" },
     { id: 3, name: "Flagle", url: "https://www.flagle.io/", scoring: "guesses6" },
     { id: 4, name: "Timeguessr", url: "https://timeguessr.com/roundonedaily", scoring: "points75000"},
-    { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "mistakes6"},
+    { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points15000"},
     { id: 6, name: "Framed", url: "https://framed.wtf/", scoring: "guesses6"},
     { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes4"},
-    { id: 8, name: "Semantle", url: "https://semantle.com/", scoring: "guesses50"},
+    { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75"},
     { id: 9, name: "Gamedle Classic", url: "https://www.gamedle.wtf/classic", scoring: "guesses6"},
     { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3"},
     { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3"},
@@ -24,7 +24,12 @@ const gamesList = [
     { id: 22, name: "Realbirdfakebird", url: "https://realbirdfakebird.com/", scoring: "mistakes7"},
     { id: 23, name: "Lyricle", url: "https://www.lyricle.app/", scoring: "guesses6"},
     { id: 24, name: "Flickle", url: "https://flickle.app/", scoring: "guesses6"},
-    { id: 25, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints5"}
+    { id: 25, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints5"},
+    { id: 26, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6"},
+    { id: 27, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes5"},
+    { id: 28, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75"},
+    { id: 29, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6"},
+    { id: 30, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points15"}
 ];
 
 // Game configuration
@@ -63,7 +68,6 @@ function initializeGame() {
     generateDailyGrid();
     
     // Event listeners
-    // Remove the newGridButton listener since we're removing that button
     gridSizeSelector.addEventListener('change', handleGridSizeChange);
     resetProgressButton.addEventListener('click', resetProgress);
     
@@ -199,7 +203,7 @@ function generateDailyGrid() {
     
     // Use date as seed for consistent daily generation
     const today = new Date();
-    const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234;
+    const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234 + gridSize * 13245;
     
     // Pseudo-random number generator with seed
     const seededRandom = function() {
