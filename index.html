@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,6 +135,35 @@
                 <p class="seed-warning">Warning: Using a custom seed will reset your current progress!</p>
             </div>
         </div>
+
+        <div id="advanced-settings-panel" class="settings-panel">
+            <h3>Custom Profile</h3>
+            <button id="toggle-game-settings" class="settings-button">Edit Available Games</button>
+            
+            <div id="game-selection-container" class="hidden">
+              <h4>Select Games</h4>
+              <div id="game-categories"></div>
+              <div class="category-games-container"></div>
+              <button id="select-all-games" class="settings-button">Select All</button>
+              <button id="deselect-all-games" class="settings-button">Deselect All</button>
+            </div>
+            
+            <div id="profile-management">
+              <h4>Game Profiles</h4>
+              <div class="profile-input-group">
+                <input type="text" id="profile-name-input" placeholder="Profile name">
+                <button id="save-profile-button" class="settings-button">Save Profile</button>
+              </div>
+              <div id="profiles-list-container">
+                <h5>Saved Profiles</h5>
+                <select id="profiles-list" size="4"></select>
+                <div class="profile-buttons">
+                  <button id="load-profile-button" class="settings-button">Load</button>
+                  <button id="delete-profile-button" class="settings-button">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <p class="copyright">Created by Samuel Cardwell - 2025</p>
         <p class="copyright"><a href="https://bsky.app/profile/samcardwell44.bsky.social" target="_blank" rel="noopener noreferrer">Follow my work</a></p>
     </footer>

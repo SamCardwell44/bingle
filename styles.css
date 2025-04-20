@@ -745,3 +745,124 @@ footer {
         font-size: 0.3rem;
     }
 }
+
+/* Advanced settings panel */
+.settings-panel {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .settings-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .settings-button:hover {
+    background-color: #45a049;
+  }
+  
+  .settings-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Game selection container */
+  #game-selection-container {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .category-container {
+    margin-bottom: 15px;
+  }
+  
+  .category-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    background-color: #f0f0f0;
+    padding: 5px;
+    border-radius: 3px;
+  }
+  
+  .game-checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin-left: 15px;
+  }
+  
+  .game-checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .game-checkbox-label input {
+    margin-right: 8px;
+  }
+  
+  /* Profile management */
+  #profile-management {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  .profile-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  #profile-name-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  #profiles-list-container {
+    margin-top: 10px;
+  }
+  
+  #profiles-list {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+
+  @media (max-width: 768px) {
+    .difficulty-badge {
+        display: none;
+    }
+}
