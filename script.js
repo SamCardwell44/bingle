@@ -70,7 +70,8 @@ function initializeGame() {
 
     // Set default seed to 'daily' if not already set
     if (!customSeed) {
-        customSeed = 'daily';
+        const seedName = `daily-${currentDate}-${gridSize}`;
+        customSeed = seedName;
     }
     
     // Load saved progress if exists
