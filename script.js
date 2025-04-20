@@ -12,10 +12,10 @@ const gamesList = [
     { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3"},
     { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3"},
     { id: 12, name: "Waffle", url: "https://wafflegame.net/", scoring: "guesses15"},
-    { id: 13, name: "Hexaguessr", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6" },
+    { id: 13, name: "Hexaguessr Daily", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6" },
     { id: 14, name: "Bandle", url: "https://bandle.app/daily", scoring: "guesses6" },
     { id: 15, name: "Globle", url: "https://globle-game.com/game", scoring: "guesses10"},
-    { id: 16, name: "Mathle", url: "https://lemononmars.github.io/mathdle/", scoring: "guesses6" },
+    { id: 16, name: "Mathdle Easy", url: "https://lemononmars.github.io/mathdle/", scoring: "guesses6" },
     { id: 17, name: "Gamedle Art", url: "https://www.gamedle.wtf/artwork", scoring: "guesses6"},
     { id: 18, name: "Colorfle", url: "https://colorfle.com/", scoring: "guesses6"},
     { id: 19, name: "Facedle", url: "https://facedle.app/", scoring: "guesses6"},
@@ -24,12 +24,11 @@ const gamesList = [
     { id: 22, name: "Realbirdfakebird", url: "https://realbirdfakebird.com/", scoring: "mistakes7"},
     { id: 23, name: "Lyricle", url: "https://www.lyricle.app/", scoring: "guesses6"},
     { id: 24, name: "Flickle", url: "https://flickle.app/", scoring: "guesses6"},
-    { id: 25, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints5"},
-    { id: 26, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6"},
-    { id: 27, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes5"},
-    { id: 28, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75"},
-    { id: 29, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6"},
-    { id: 30, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points15"}
+    { id: 25, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6"},
+    { id: 26, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes5"},
+    { id: 27, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75"},
+    { id: 28, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6"},
+    { id: 29, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points15"}
 ];
 
 // Game configuration
@@ -106,8 +105,8 @@ function handleGridSizeChange() {
     gridSize = parseInt(gridSizeSelector.value);
     
     // Check if we need to reset rerolls for this grid size
-    const storageKey = `${customSeed || 'daily'}-${gridSize}`;
-    const savedRerollData = localStorage.getItem('bingleRerollData');
+    const saveKey = `bingleRerollData-${customSeed}-${gridSize}`;
+    const savedRerollData = localStorage.getItem(saveKey);
     
     if (savedRerollData) {
         const rerollData = JSON.parse(savedRerollData);
@@ -294,7 +293,8 @@ function generateDailyGrid() {
         }
         
         // Check if we have a saved grid for today and this seed+gridSize
-        const savedData = localStorage.getItem('bingleGameData');
+        const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+        const savedData = localStorage.getItem(saveKey);
         let useExistingGrid = false;
         
         if (savedData) {
@@ -322,7 +322,7 @@ function generateDailyGrid() {
             
             if (customSeed) {
                 // Use custom seed if provided
-                seed = hashString(customSeed);
+                seed = hashString(customSeed) + today.getDate() + gridSize * 13245;
             } else {
                 // Use date as seed for consistent daily generation
                 seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234 + gridSize * 13245;
@@ -697,17 +697,18 @@ function updateScoreDisplay() {
 
 // Save progress to localStorage
 function saveProgress() {
-    const saveData = {
-        gridSize: gridSize,
-        gameStatuses: gameStatuses,
-        gameScores: gameScores,
-        difficultyAssignments: difficultyAssignments,
-        lastUpdated: new Date().toISOString(),
-        customSeed: customSeed,
-        currentGrid: currentGrid  // Add this line to save the current grid
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+    const data = {
+        lastUpdated: new Date(),
+        customSeed,
+        gridSize,
+        currentGrid,
+        gameStatuses,
+        gameScores,
+        difficultyAssignments
     };
-    
-    localStorage.setItem('bingleGameData', JSON.stringify(saveData));
+
+    localStorage.setItem(saveKey, JSON.stringify(data));
     
     // Also update streak data
     updateStreakData();
@@ -817,7 +818,8 @@ function updateStreakDisplay() {
 
 // Load progress from localStorage
 function loadProgress() {
-    const savedData = localStorage.getItem('bingleGameData');
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+    const savedData = localStorage.getItem(saveKey);
     
     if (savedData) {
         const data = JSON.parse(savedData);
@@ -950,7 +952,8 @@ function resetRerollsForSeed(seed) {
     
     // Save reroll data with the current seed and grid size
     const today = new Date().toDateString();
-    localStorage.setItem('bingleRerollData', JSON.stringify({
+    const saveKey = `bingleRerollData-${customSeed}-${gridSize}`;
+    localStorage.setItem(saveKey, JSON.stringify({
         rerollsRemaining,
         lastRerollDate: today,
         seed: seed,
@@ -969,7 +972,8 @@ function checkAndResetRerolls() {
     const storageKey = `${customSeed || 'daily'}-${gridSize}`;
     
     // Load reroll data from localStorage
-    const savedRerollData = localStorage.getItem('bingleRerollData');
+    const saveKey = `bingleRerollData-${customSeed}-${gridSize}`;
+    const savedRerollData = localStorage.getItem(saveKey);
     if (savedRerollData) {
         const rerollData = JSON.parse(savedRerollData);
         lastRerollDate = rerollData.lastRerollDate;
@@ -1118,7 +1122,8 @@ function handleRerollSelection(event) {
             lastRerollDate = new Date().toDateString();
             
             // Save reroll data with the current seed and grid size
-            localStorage.setItem('bingleRerollData', JSON.stringify({
+            const saveKey = `bingleRerollData-${customSeed}-${gridSize}`;
+            localStorage.setItem(saveKey , JSON.stringify({
                 rerollsRemaining,
                 lastRerollDate,
                 seed: customSeed,
