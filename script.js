@@ -166,7 +166,7 @@ function getScoreValue(performance) {
 }
 
 // Assign difficulty levels to games in the grid
-function assignDifficulties() {
+function assignDifficulties(rng) {
     const totalCells = gridSize * gridSize;
     const hardCount = Math.max(1, Math.floor(totalCells / 9));  // 1/9 of cells should be hard
     const mediumCount = Math.max(3, Math.floor(totalCells / 3)); // 3/9 of cells should be medium
@@ -186,7 +186,7 @@ function assignDifficulties() {
     
     // Shuffle difficulties
     for (let i = difficulties.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(rng() * (i + 1));
         [difficulties[i], difficulties[j]] = [difficulties[j], difficulties[i]];
     }
     
@@ -225,7 +225,7 @@ function generateDailyGrid() {
     currentGrid = shuffledGames.slice(0, gridSize * gridSize);
     
     // Assign difficulties to games
-    assignDifficulties();
+    assignDifficulties(seededRandom);
     
     // Initialize game statuses and scores for new games
     currentGrid.forEach(game => {
