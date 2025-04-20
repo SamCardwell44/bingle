@@ -23,6 +23,10 @@
                     <option value="5">5x5</option>
                 </select>
             </div>
+            <div class="reroll-container">
+                <button id="reroll-button" disabled>Reroll Game (0 remaining)</button>
+            </div>
+            
         </div>
 
         <div class="running-score">
@@ -72,6 +76,28 @@
         </div>
         <div id="daily-bonus" class="bonus-display">
             <!-- Bonus points will be displayed here -->
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <h2>Your Stats</h2>
+        <div id="streak-display" class="streak-display">
+            <!-- Streak information will be inserted here -->
+        </div>
+    </div>
+    
+    <div id="custom-seed-panel" class="custom-seed-panel">
+        <div class="seed-header">
+            <h3>Custom Seed</h3>
+            <button id="toggle-seed-panel" onclick="toggleCustomSeedPanel()">+</button>
+        </div>
+        <div class="seed-content">
+            <p>Enter a custom seed to generate a specific grid:</p>
+            <div class="seed-input-container">
+                <input type="text" id="custom-seed-input" placeholder="Enter seed...">
+                <button id="apply-seed" onclick="handleCustomSeedSubmit()">Apply</button>
+            </div>
+            <p class="seed-warning">Warning: Using a custom seed will reset your current progress!</p>
         </div>
     </div>
 
