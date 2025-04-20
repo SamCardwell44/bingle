@@ -9,11 +9,14 @@
 <body>
     <header>
         <h1>Bingle</h1>
-        <p class="tagline">Your daily mini-game challenge</p>
+        <p class="tagline">Daily bingo grid for daily games</p>
         <p id="date-display"></p>
     </header>
 
     <main>
+        <div class="running-score">
+            <h1>Current Score: <span id="total-score">0</span></h1>
+        </div>
         <div class="controls">
             <div class="grid-size">
                 <label for="grid-size-selector">Grid Size:</label>
@@ -24,16 +27,28 @@
                 </select>
             </div>
             <div class="reroll-container">
-                <button id="reroll-button" disabled>Reroll Game (0 remaining)</button>
+                <button id="reroll-button" disabled>Reroll Square (0 remaining)</button>
             </div>
             
         </div>
 
-        <div class="running-score">
-            <h1>Current Score: <span id="total-score">0</span></h1>
-        </div>
+        
+        
+        <div class="grid-wrapper">
+            <div id="game-grid" class="grid-container"></div>
+          </div>
+        
 
-        <div id="game-grid" class="grid-container"></div>
+        <div class="timer-container">
+            <div class="timer-display-container">
+                <span id="timer-display">00:00</span>
+            </div>
+            <div class="timer-controls">
+                <button id="start-timer" class="timer-button">Start</button>
+                <button id="pause-timer" class="timer-button" style="display: none;">Pause</button>
+                <button id="reset-timer" class="timer-button">Reset</button>
+            </div>
+        </div>
 
         <div class="controls bottom">
             <button id="reset-progress">Reset Progress</button>

@@ -1,34 +1,34 @@
 // Game data with scoring metrics
 const gamesList = [
-    { id: 1, name: "Wordle", url: "https://www.nytimes.com/games/wordle", scoring: "guesses6"},
-    { id: 2, name: "Worldle", url: "https://worldle.teuteuf.fr/", scoring: "guesses6" },
-    { id: 3, name: "Flagle", url: "https://www.flagle.io/", scoring: "guesses6" },
-    { id: 4, name: "Timeguessr", url: "https://timeguessr.com/roundonedaily", scoring: "points75000"},
-    { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points15000"},
-    { id: 6, name: "Framed", url: "https://framed.wtf/", scoring: "guesses6"},
-    { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes4"},
-    { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75"},
-    { id: 9, name: "Gamedle Classic", url: "https://www.gamedle.wtf/classic", scoring: "guesses6"},
-    { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3"},
-    { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3"},
-    { id: 12, name: "Waffle", url: "https://wafflegame.net/", scoring: "guesses15"},
-    { id: 13, name: "Hexaguessr Daily", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6" },
-    { id: 14, name: "Bandle", url: "https://bandle.app/daily", scoring: "guesses6" },
-    { id: 15, name: "Globle", url: "https://globle-game.com/game", scoring: "guesses10"},
-    { id: 16, name: "Mathdle Easy", url: "https://lemononmars.github.io/mathdle/", scoring: "guesses6" },
-    { id: 17, name: "Gamedle Art", url: "https://www.gamedle.wtf/artwork", scoring: "guesses6"},
-    { id: 18, name: "Colorfle", url: "https://colorfle.com/", scoring: "guesses6"},
-    { id: 19, name: "Facedle", url: "https://facedle.app/", scoring: "guesses6"},
-    { id: 20, name: "Shaple", url: "https://swag.github.io/shaple/", scoring: "mistakes5"},
-    { id: 21, name: "Metazooa", url: "https://metazooa.com/play/game", scoring: "guesses20"},
-    { id: 22, name: "Realbirdfakebird", url: "https://realbirdfakebird.com/", scoring: "mistakes7"},
-    { id: 23, name: "Lyricle", url: "https://www.lyricle.app/", scoring: "guesses6"},
-    { id: 24, name: "Flickle", url: "https://flickle.app/", scoring: "guesses6"},
-    { id: 25, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6"},
-    { id: 26, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes5"},
-    { id: 27, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75"},
-    { id: 28, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6"},
-    { id: 29, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points15"}
+    { id: 1, name: "Wordle", url: "https://www.nytimes.com/games/wordle", scoring: "guesses6", category: "words" },
+    { id: 2, name: "Worldle", url: "https://worldle.teuteuf.fr/", scoring: "guesses6", category: "geography" },
+    { id: 3, name: "Flagle", url: "https://www.flagle.io/", scoring: "guesses6", category: "geography" },
+    { id: 4, name: "Timeguessr", url: "https://timeguessr.com/roundonedaily", scoring: "points75000", category: "geography" },
+    { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points15000", category: "misc" },
+    { id: 6, name: "Framed", url: "https://framed.wtf/", scoring: "guesses6", category: "films" },
+    { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes4", category: "words" },
+    { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75", category: "words" },
+    { id: 9, name: "Gamedle Classic", url: "https://www.gamedle.wtf/classic", scoring: "guesses6", category: "games" },
+    { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3", category: "words" },
+    { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3", category: "geography" },
+    { id: 12, name: "Waffle", url: "https://wafflegame.net/", scoring: "guesses15", category: "words" },
+    { id: 13, name: "Hexaguessr Daily", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6", category: "geography" },
+    { id: 14, name: "Bandle", url: "https://bandle.app/daily", scoring: "guesses6", category: "words" },
+    { id: 15, name: "Globle", url: "https://globle-game.com/game", scoring: "guesses15", category: "geography" },
+    { id: 16, name: "Mathdle Easy", url: "https://lemononmars.github.io/mathdle/", scoring: "guesses6", category: "maths" },
+    { id: 17, name: "Gamedle Art", url: "https://www.gamedle.wtf/artwork", scoring: "guesses6", category: "games" },
+    { id: 18, name: "Colorfle", url: "https://colorfle.com/", scoring: "guesses6", category: "misc" },
+    { id: 19, name: "Facedle", url: "https://facedle.app/", scoring: "guesses6", category: "films" },
+    { id: 20, name: "Shaple", url: "https://swag.github.io/shaple/", scoring: "mistakes5", category: "misc" },
+    { id: 21, name: "Metazooa", url: "https://metazooa.com/play/game", scoring: "guesses20", category: "misc" },
+    { id: 22, name: "Realbirdfakebird", url: "https://realbirdfakebird.com/", scoring: "mistakes7", category: "misc" },
+    { id: 23, name: "Lyricle", url: "https://www.lyricle.app/", scoring: "guesses6", category: "music" },
+    { id: 24, name: "Flickle", url: "https://flickle.app/", scoring: "guesses6", category: "films" },
+    { id: 25, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6", category: "words" },
+    { id: 26, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes5", category: "words" },
+    { id: 27, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75", category: "misc" },
+    { id: 28, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6", category: "geography" },
+    { id: 29, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points15", category: "trivia" }
 ];
 
 // Game configuration
@@ -57,7 +57,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 
 // Initialize the game
 function initializeGame() {
-    //localStorage.clear(); // Uncomment this line to clear all local storage for testing
+    localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
     const currentDate = new Date();
@@ -98,6 +98,7 @@ function initializeGame() {
     updateScoreDisplay();
     updateStreakDisplay();
     updateRerollButton();
+    initializeTimer();
 }
 
 function handleGridSizeChange() {
@@ -123,9 +124,12 @@ function handleGridSizeChange() {
         // No saved data, reset rerolls
         resetRerollsForSeed(customSeed);
     }
-    
+
+    loadTimerState();
+
     // Generate the new grid
     generateDailyGrid();
+    updateScoreDisplay();
 }
 
 //Load streak data
@@ -267,7 +271,7 @@ function assignDifficulties(rng) {
         difficulties[i] = 'medium';
     }
     
-    // Shuffle difficulties
+    // Shuffle difficulties using the provided seeded random generator
     for (let i = difficulties.length - 1; i > 0; i--) {
         const j = Math.floor(rng() * (i + 1));
         [difficulties[i], difficulties[j]] = [difficulties[j], difficulties[i]];
@@ -281,75 +285,76 @@ function assignDifficulties(rng) {
 
 // Generate a grid based on the current date as a seed
 function generateDailyGrid() {
-        // Clear the current grid
-        gameGrid.innerHTML = '';
+    // Clear the current grid
+    gameGrid.innerHTML = '';
+
+    if (isDailySeed(customSeed)) {
+        customSeed = 'daily';
+        const seedInput = document.getElementById('custom-seed-input');
+        if (seedInput) {
+            seedInput.value = 'daily';
+        }
+    }
     
-        if (isDailySeed(customSeed)) {
-            customSeed = 'daily';
-            const seedInput = document.getElementById('custom-seed-input');
-            if (seedInput) {
-                seedInput.value = 'daily';
-            }
-        }
-        
-        // Check if we have a saved grid for today and this seed+gridSize
-        const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
-        const savedData = localStorage.getItem(saveKey);
-        let useExistingGrid = false;
-        
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            const savedDate = new Date(data.lastUpdated);
-            const today = new Date();
-            
-            if (savedDate.toDateString() === today.toDateString() && 
-                data.customSeed === customSeed && 
-                data.gridSize === gridSize &&
-                data.currentGrid && 
-                data.currentGrid.length > 0) {
-                
-                // Use the saved grid if it exists for today with the same seed and grid size
-                currentGrid = data.currentGrid;
-                useExistingGrid = true;
-            }
-        }
-        
-        // Only generate a new grid if we don't have a saved one
-        if (!useExistingGrid) {
-            // Use date or custom seed for consistent generation
-            const today = new Date();
-            let seed;
-            
-            if (customSeed) {
-                // Use custom seed if provided
-                seed = hashString(customSeed) + today.getDate() + gridSize * 13245;
-            } else {
-                // Use date as seed for consistent daily generation
-                seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234 + gridSize * 13245;
-            }
+    // Check if we have a saved grid for today and this seed+gridSize
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+    const savedData = localStorage.getItem(saveKey);
+    let useExistingGrid = false;
     
-            // Pseudo-random number generator with seed
-            const seededRandom = function() {
-                let currentSeed = seed;
-                return function() {
-                    currentSeed = (currentSeed * 9301 + 49297) % 233280;
-                    return currentSeed / 233280;
-                };
-            }();
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        const savedDate = new Date(data.lastUpdated);
+        const today = new Date();
+        
+        if (savedDate.toDateString() === today.toDateString() && 
+            data.customSeed === customSeed && 
+            data.gridSize === gridSize &&
+            data.currentGrid && 
+            data.currentGrid.length > 0) {
             
-            // Shuffle games using seeded random
-            const shuffledGames = [...gamesList];
-            for (let i = shuffledGames.length - 1; i > 0; i--) {
-                const j = Math.floor(seededRandom() * (i + 1));
-                [shuffledGames[i], shuffledGames[j]] = [shuffledGames[j], shuffledGames[i]];
-            }
-            
-            // Select games for the grid
-            currentGrid = shuffledGames.slice(0, gridSize * gridSize);
-            
-            // Assign difficulties to games
-            assignDifficulties(seededRandom);
+            // Use the saved grid if it exists for today with the same seed and grid size
+            currentGrid = data.currentGrid;
+            difficultyAssignments = data.difficultyAssignments || {};
+            useExistingGrid = true;
         }
+    }
+    
+    // Only generate a new grid if we don't have a saved one
+    if (!useExistingGrid) {
+        // Use date or custom seed for consistent generation
+        const today = new Date();
+        let seed;
+        
+        if (customSeed) {
+            // Use custom seed if provided
+            seed = hashString(customSeed) + today.getDate() + gridSize * 13245;
+        } else {
+            // Use date as seed for consistent daily generation
+            seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234 + gridSize * 13245;
+        }
+
+        // Pseudo-random number generator with seed
+        const seededRandom = function() {
+            let currentSeed = seed;
+            return function() {
+                currentSeed = (currentSeed * 9301 + 49297) % 233280;
+                return currentSeed / 233280;
+            };
+        }();
+        
+        // Shuffle games using seeded random
+        const shuffledGames = [...gamesList];
+        for (let i = shuffledGames.length - 1; i > 0; i--) {
+            const j = Math.floor(seededRandom() * (i + 1));
+            [shuffledGames[i], shuffledGames[j]] = [shuffledGames[i], shuffledGames[j]];
+        }
+        
+        // Select games for the grid
+        currentGrid = shuffledGames.slice(0, gridSize * gridSize);
+        
+        // Assign difficulties using the SAME seeded random generator
+        assignDifficulties(seededRandom);
+    }
     
     // Initialize game statuses and scores for new games
     currentGrid.forEach(game => {
@@ -504,6 +509,7 @@ function generateDailyGrid() {
     // Save the current grid to localStorage
     saveProgress();
 }
+
 
 // Update cell styling based on game status
 function updateCellStyle(cell, game) {
@@ -1008,7 +1014,7 @@ function updateRerollButton() {
     const rerollButton = document.getElementById('reroll-button');
     if (rerollButton) {
         rerollButton.disabled = rerollsRemaining <= 0;
-        rerollButton.textContent = `Reroll Game (${rerollsRemaining} remaining)`;
+        rerollButton.textContent = `Reroll Square (${rerollsRemaining} remaining)`;
     }
 }
 
@@ -1054,7 +1060,7 @@ function cancelRerollMode() {
     
     // Reset reroll button
     const rerollButton = document.getElementById('reroll-button');
-    rerollButton.textContent = `Reroll Game (${rerollsRemaining} remaining)`;
+    rerollButton.textContent = `Reroll Square (${rerollsRemaining} remaining)`;
     
     // Important: Remove old event listener before adding new one
     rerollButton.removeEventListener('click', cancelRerollMode);
@@ -1525,6 +1531,148 @@ function animateCompletedLines(completedLines) {
         });
     });
 }
+
+
+// Timer variables
+let timerInterval = null;
+let startTime = 0;
+let elapsedTime = 0;
+let timerRunning = false;
+
+// Initialize timer functionality
+function initializeTimer() {
+    // Get timer elements
+    const timerDisplay = document.getElementById('timer-display');
+    const startTimerButton = document.getElementById('start-timer');
+    const pauseTimerButton = document.getElementById('pause-timer');
+    const resetTimerButton = document.getElementById('reset-timer');
+    
+    // Add event listeners
+    startTimerButton.addEventListener('click', startTimer);
+    pauseTimerButton.addEventListener('click', pauseTimer);
+    resetTimerButton.addEventListener('click', resetTimer);
+    
+    // Initialize timer display
+    updateTimerDisplay();
+    
+    // Check if we have a saved timer state
+    loadTimerState();
+}
+
+// Format time as MM:SS or HH:MM:SS
+function formatTime(milliseconds) {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    
+    if (hours > 0) {
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    } else {
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+}
+
+// Update timer display
+function updateTimerDisplay() {
+    const timerDisplay = document.getElementById('timer-display');
+    if (timerDisplay) {
+        timerDisplay.textContent = formatTime(elapsedTime);
+    }
+}
+
+// Start the timer
+function startTimer() {
+    if (!timerRunning) {
+        timerRunning = true;
+        startTime = Date.now() - elapsedTime;
+        
+        timerInterval = setInterval(() => {
+            elapsedTime = Date.now() - startTime;
+            updateTimerDisplay();
+        }, 1000);
+        
+        // Update UI
+        document.getElementById('start-timer').style.display = 'none';
+        document.getElementById('pause-timer').style.display = 'inline-block';
+        
+        // Save timer state
+        saveTimerState();
+    }
+}
+
+// Pause the timer
+function pauseTimer() {
+    if (timerRunning) {
+        timerRunning = false;
+        clearInterval(timerInterval);
+        
+        // Update UI
+        document.getElementById('start-timer').style.display = 'inline-block';
+        document.getElementById('pause-timer').style.display = 'none';
+        
+        // Save timer state
+        saveTimerState();
+    }
+}
+
+// Reset the timer
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    elapsedTime = 0;
+    updateTimerDisplay();
+    
+    // Update UI
+    document.getElementById('start-timer').style.display = 'inline-block';
+    document.getElementById('pause-timer').style.display = 'none';
+    
+    // Save timer state
+    saveTimerState();
+}
+
+// Save timer state to localStorage
+function saveTimerState() {
+    const saveKey = `bingleTimerState-${customSeed}-${gridSize}`;
+    const timerState = {
+        elapsedTime,
+        timerRunning,
+        lastSaved: Date.now()
+    };
+    
+    localStorage.setItem(saveKey, JSON.stringify(timerState));
+}
+
+// Load timer state from localStorage
+function loadTimerState() {
+    const saveKey = `bingleTimerState-${customSeed}-${gridSize}`;
+    const savedState = localStorage.getItem(saveKey);
+    
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        
+        // Check if timer state is from today
+        const savedDate = new Date(state.lastSaved);
+        const today = new Date();
+        
+        if (savedDate.toDateString() === today.toDateString() &&
+            state.elapsedTime !== undefined) {
+            
+            elapsedTime = state.elapsedTime;
+            
+            // If timer was running when saved, restart it
+            if (state.timerRunning) {
+                startTimer();
+            } else {
+                updateTimerDisplay();
+            }
+        } else {
+            // It's a new day, reset timer
+            resetTimer();
+        }
+    }
+}
+
 
 // Initialize the game when page loads
 document.addEventListener('DOMContentLoaded', initializeGame);
