@@ -57,7 +57,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 
 // Initialize the game
 function initializeGame() {
-    //localStorage.clear(); // Uncomment this line to clear all local storage for testing
+    localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
     const currentDate = new Date();
@@ -68,8 +68,6 @@ function initializeGame() {
         day: 'numeric' 
     });    
 
-    initializeGameProfiles();
-    
     // Set default seed to 'daily' if not already set
     if (!customSeed) {
         customSeed = 'daily';
@@ -298,11 +296,8 @@ function generateDailyGrid() {
         }
     }
     
-    // Create a profile key for saving/loading grids
-    const profileKey = currentProfile.name || 'Default';
-    
-    // Check if we have a saved grid for today and this seed+gridSize+profile
-    const saveKey = `bingleGameData-${customSeed}-${gridSize}-${profileKey}`;
+    // Check if we have a saved grid for today and this seed+gridSize
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
     const savedData = localStorage.getItem(saveKey);
     let useExistingGrid = false;
     
@@ -314,7 +309,6 @@ function generateDailyGrid() {
         if (savedDate.toDateString() === today.toDateString() && 
             data.customSeed === customSeed && 
             data.gridSize === gridSize &&
-            data.profileName === profileKey &&
             data.currentGrid && 
             data.currentGrid.length > 0) {
             
@@ -327,28 +321,6 @@ function generateDailyGrid() {
     
     // Only generate a new grid if we don't have a saved one
     if (!useExistingGrid) {
-        // Get filtered games list based on current profile
-        const filteredGamesList = filterGamesListByProfile();
-        
-        // Check if we have enough games for the grid
-        if (filteredGamesList.length < gridSize * gridSize) {
-            alert(`Not enough games in the current profile for a ${gridSize}x${gridSize} grid. Please select more games or use a smaller grid size.`);
-            
-            // Fallback to default profile if necessary
-            if (currentProfile.name !== 'Default') {
-                loadProfile('Default');
-            } else {
-                // If we're already using the default profile, use a smaller grid size
-                if (gridSize > 3) {
-                    gridSize = 3;
-                    gridSizeSelector.value = gridSize;
-                }
-            }
-            
-            // Try again with new settings
-            return generateDailyGrid();
-        }
-        
         // Use date or custom seed for consistent generation
         const today = new Date();
         let seed;
@@ -370,8 +342,8 @@ function generateDailyGrid() {
             };
         }();
         
-        // Shuffle games using seeded random from filtered games list
-        const shuffledGames = [...filteredGamesList];
+        // Shuffle games using seeded random
+        const shuffledGames = [...gamesList];
         for (let i = shuffledGames.length - 1; i > 0; i--) {
             const j = Math.floor(seededRandom() * (i + 1));
             [shuffledGames[i], shuffledGames[j]] = [shuffledGames[i], shuffledGames[j]];
@@ -731,13 +703,11 @@ function updateScoreDisplay() {
 
 // Save progress to localStorage
 function saveProgress() {
-    const profileKey = currentProfile.name || 'Default';
-    const saveKey = `bingleGameData-${customSeed}-${gridSize}-${profileKey}`;
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
     const data = {
         lastUpdated: new Date(),
         customSeed,
         gridSize,
-        profileName: profileKey,
         currentGrid,
         gameStatuses,
         gameScores,
@@ -854,8 +824,7 @@ function updateStreakDisplay() {
 
 // Load progress from localStorage
 function loadProgress() {
-    const profileKey = currentProfile.name || 'Default';
-    const saveKey = `bingleGameData-${customSeed}-${gridSize}-${profileKey}`;
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
     const savedData = localStorage.getItem(saveKey);
     
     if (savedData) {
@@ -865,10 +834,8 @@ function loadProgress() {
         const savedDate = new Date(data.lastUpdated);
         const today = new Date();
         
-        // Only restore if it's the same day and same profile
-        if (savedDate.toDateString() === today.toDateString() && 
-            data.profileName === profileKey) {
-            
+        // Only restore if it's the same day
+        if (savedDate.toDateString() === today.toDateString()) {
             gridSize = data.gridSize || 3;
             gameStatuses = data.gameStatuses || {};
             gameScores = data.gameScores || {};
@@ -1102,6 +1069,7 @@ function cancelRerollMode() {
 
 
 // Handle reroll selection
+// Fix for the reroll functionality
 function handleRerollSelection(event) {
     // Stop click event from opening the game URL
     event.preventDefault();
@@ -1113,9 +1081,8 @@ function handleRerollSelection(event) {
     const gameIndex = currentGrid.findIndex(game => game.id === gameId);
     
     if (gameIndex !== -1) {
-        // Get games not currently in the grid BUT are in the current profile
-        const filteredGamesList = filterGamesListByProfile();
-        const availableGames = filteredGamesList.filter(game => 
+        // Get games not currently in the grid
+        const availableGames = gamesList.filter(game => 
             !currentGrid.some(currentGame => currentGame.id === game.id)
         );
         
@@ -1183,9 +1150,6 @@ function handleRerollSelection(event) {
                     setTimeout(() => newCell.classList.remove('rerolled'), 1000);
                 }
             }, 100);
-        } else {
-            alert("No more games available with the current profile settings!");
-            cancelRerollMode();
         }
     }
 }
@@ -1709,365 +1673,6 @@ function loadTimerState() {
     }
 }
 
-// New global variables for game profiles
-let availableGames = [];
-let currentProfile = {
-    name: "Default",
-    games: []
-};
-let savedProfiles = [];
-
-// Initialize game profiles system
-function initializeGameProfiles() {
-    // Make a copy of all games from gamesList
-    availableGames = [...gamesList];
-    
-    // Load saved profiles from localStorage
-    loadSavedProfiles();
-    
-    // Create default profile if it doesn't exist
-    ensureDefaultProfile();
-    
-    // Set up event listeners for the Advanced Settings panel
-    setupAdvancedSettingsListeners();
-    
-    // Populate the game categories and checkboxes
-    populateGameCategories();
-    
-    // Populate the profiles dropdown
-    updateProfilesList();
-}
-
-// Ensure the default profile exists with all games
-function ensureDefaultProfile() {
-    const defaultProfileIndex = savedProfiles.findIndex(p => p.name === "Default");
-    
-    if (defaultProfileIndex === -1) {
-        // Create default profile with all available games
-        const defaultProfile = {
-            name: "Default",
-            games: availableGames.map(game => game.id)
-        };
-        
-        savedProfiles.push(defaultProfile);
-        saveProfilesToLocalStorage();
-    }
-    
-    // If no current profile, set to default
-    if (!currentProfile || !currentProfile.name) {
-        loadProfile("Default");
-    }
-}
-
-// Load saved profiles from localStorage
-function loadSavedProfiles() {
-    const savedProfilesData = localStorage.getItem('bingleGameProfiles');
-    
-    if (savedProfilesData) {
-        savedProfiles = JSON.parse(savedProfilesData);
-    } else {
-        savedProfiles = [];
-    }
-}
-
-// Save profiles to localStorage
-function saveProfilesToLocalStorage() {
-    localStorage.setItem('bingleGameProfiles', JSON.stringify(savedProfiles));
-}
-
-// Set up event listeners for the Advanced Settings panel
-function setupAdvancedSettingsListeners() {
-    // Toggle game settings visibility
-    const toggleGameSettingsBtn = document.getElementById('toggle-game-settings');
-    const gameSelectionContainer = document.getElementById('game-selection-container');
-    
-    toggleGameSettingsBtn.addEventListener('click', () => {
-        gameSelectionContainer.classList.toggle('hidden');
-        
-        if (!gameSelectionContainer.classList.contains('hidden')) {
-            updateGameCheckboxes();
-        }
-    });
-    
-    // Select/Deselect all games
-    document.getElementById('select-all-games').addEventListener('click', selectAllGames);
-    document.getElementById('deselect-all-games').addEventListener('click', deselectAllGames);
-    
-    // Save profile
-    document.getElementById('save-profile-button').addEventListener('click', saveCurrentProfile);
-    
-    // Load profile
-    document.getElementById('load-profile-button').addEventListener('click', loadSelectedProfile);
-    
-    // Delete profile
-    document.getElementById('delete-profile-button').addEventListener('click', deleteSelectedProfile);
-}
-
-// Create and populate game categories and checkboxes
-function populateGameCategories() {
-    const categoriesContainer = document.getElementById('game-categories');
-    
-    // Clear the container
-    categoriesContainer.innerHTML = '';
-    
-    // Get unique categories
-    const categories = [...new Set(gamesList.map(game => game.category))];
-
-    // Create sections for each category
-    categories.forEach(category => {
-        const categoryContainer = document.createElement('div');
-        categoryContainer.className = 'category-container';
-
-        const categoryTitle = document.createElement('div');
-        categoryTitle.className = 'category-title';
-        categoryTitle.textContent = capitalizeFirstLetter(category);
-
-        const gamesContainer = document.createElement('div');
-        gamesContainer.className = 'game-checkbox-container';
-        gamesContainer.dataset.category = category;
-
-        // Add games for this category
-        const categoryGames = gamesList.filter(game => game.category === category);
-        
-        categoryGames.forEach(game => {
-            const gameLabel = document.createElement('label');
-            gameLabel.className = 'game-checkbox-label';
-            
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.value = game.id;
-            checkbox.dataset.gameId = game.id;
-            checkbox.className = 'game-checkbox';
-            
-            // Check if game is in current profile
-            checkbox.checked = currentProfile.games.includes(game.id);
-            
-            // Add event listener
-            checkbox.addEventListener('change', handleGameCheckboxChange);
-            
-            gameLabel.appendChild(checkbox);
-            gameLabel.appendChild(document.createTextNode(game.name));
-            
-            gamesContainer.appendChild(gameLabel);
-        });
-
-        categoryContainer.appendChild(categoryTitle);
-        categoryContainer.appendChild(gamesContainer);
-        categoriesContainer.appendChild(categoryContainer);
-    });
-}
-
-// Update game checkboxes based on current profile
-function updateGameCheckboxes() {
-    const checkboxes = document.querySelectorAll('.game-checkbox');
-    
-    checkboxes.forEach(checkbox => {
-        const gameId = parseInt(checkbox.dataset.gameId);
-        checkbox.checked = currentProfile.games.includes(gameId);
-    });
-}
-
-// Handle game checkbox changes
-function handleGameCheckboxChange(event) {
-    const checkbox = event.target;
-    const gameId = parseInt(checkbox.dataset.gameId);
-    
-    if (checkbox.checked) {
-        // Add to current profile if not already present
-        if (!currentProfile.games.includes(gameId)) {
-            currentProfile.games.push(gameId);
-        }
-    } else {
-        // Remove from current profile
-        currentProfile.games = currentProfile.games.filter(id => id !== gameId);
-    }
-}
-
-// Select all games
-function selectAllGames() {
-    const checkboxes = document.querySelectorAll('.game-checkbox');
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = true;
-        const gameId = parseInt(checkbox.dataset.gameId);
-        
-        if (!currentProfile.games.includes(gameId)) {
-            currentProfile.games.push(gameId);
-        }
-    });
-}
-
-// Deselect all games
-function deselectAllGames() {
-    const checkboxes = document.querySelectorAll('.game-checkbox');
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    
-    currentProfile.games = [];
-}
-
-// Save current profile
-function saveCurrentProfile() {
-    const profileNameInput = document.getElementById('profile-name-input');
-    const profileName = profileNameInput.value.trim();
-    
-    if (profileName === '') {
-        alert('Please enter a profile name');
-        return;
-    }
-    
-    // Check if we have games selected
-    if (currentProfile.games.length === 0) {
-        alert('Please select at least one game for the profile');
-        return;
-    }
-    
-    // Create new profile object
-    const newProfile = {
-        name: profileName,
-        games: [...currentProfile.games]
-    };
-    
-    // Check if profile name already exists
-    const existingProfileIndex = savedProfiles.findIndex(p => p.name === profileName);
-    
-    if (existingProfileIndex !== -1) {
-        // Confirm overwrite
-        if (confirm(`Profile "${profileName}" already exists. Overwrite?`)) {
-            savedProfiles[existingProfileIndex] = newProfile;
-        } else {
-            return;
-        }
-    } else {
-        // Add new profile
-        savedProfiles.push(newProfile);
-    }
-    
-    // Save to localStorage
-    saveProfilesToLocalStorage();
-    
-    // Update current profile
-    currentProfile = newProfile;
-    
-    // Update profiles list
-    updateProfilesList();
-    
-    // Clear input
-    profileNameInput.value = '';
-    
-    alert(`Profile "${profileName}" saved successfully!`);
-}
-
-// Load selected profile
-function loadSelectedProfile() {
-    const profilesList = document.getElementById('profiles-list');
-    const selectedProfile = profilesList.value;
-    
-    if (!selectedProfile) {
-        alert('Please select a profile to load');
-        return;
-    }
-    
-    loadProfile(selectedProfile);
-}
-
-// Load a profile by name
-function loadProfile(profileName) {
-    const profile = savedProfiles.find(p => p.name === profileName);
-    
-    if (!profile) {
-        console.error(`Profile "${profileName}" not found`);
-        return;
-    }
-    
-    // Set as current profile
-    currentProfile = {
-        name: profile.name,
-        games: [...profile.games]
-    };
-    
-    // Update checkboxes
-    updateGameCheckboxes();
-    
-    // Update game list
-    filterGamesListByProfile();
-    
-    // Regenerate grid with filtered games
-    generateDailyGrid();
-}
-
-// Delete selected profile
-function deleteSelectedProfile() {
-    const profilesList = document.getElementById('profiles-list');
-    const selectedProfile = profilesList.value;
-    
-    if (!selectedProfile) {
-        alert('Please select a profile to delete');
-        return;
-    }
-    
-    // Don't allow deleting the Default profile
-    if (selectedProfile === 'Default') {
-        alert('The Default profile cannot be deleted');
-        return;
-    }
-    
-    // Confirm deletion
-    if (!confirm(`Are you sure you want to delete profile "${selectedProfile}"?`)) {
-        return;
-    }
-    
-    // Remove profile
-    savedProfiles = savedProfiles.filter(p => p.name !== selectedProfile);
-    
-    // Save to localStorage
-    saveProfilesToLocalStorage();
-    
-    // Update profiles list
-    updateProfilesList();
-    
-    // If current profile was deleted, load default
-    if (currentProfile.name === selectedProfile) {
-        loadProfile('Default');
-    }
-    
-    alert(`Profile "${selectedProfile}" deleted successfully!`);
-}
-
-// Update the profiles dropdown list
-function updateProfilesList() {
-    const profilesList = document.getElementById('profiles-list');
-    
-    // Clear existing options
-    profilesList.innerHTML = '';
-    
-    // Add options for each profile
-    savedProfiles.forEach(profile => {
-        const option = document.createElement('option');
-        option.value = profile.name;
-        option.textContent = profile.name;
-        
-        // Select current profile
-        if (profile.name === currentProfile.name) {
-            option.selected = true;
-        }
-        
-        profilesList.appendChild(option);
-    });
-}
-
-// Filter the games list based on current profile
-function filterGamesListByProfile() {
-    // Get only the games in the current profile
-    return gamesList.filter(game => currentProfile.games.includes(game.id));
-}
-
-// Helper function to capitalize first letter
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 // Initialize the game when page loads
 document.addEventListener('DOMContentLoaded', initializeGame);
