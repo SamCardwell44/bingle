@@ -58,7 +58,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 
 // Initialize the game
 function initializeGame() {
-    localStorage.clear(); // Uncomment this line to clear all local storage for testing
+    //localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
     const currentDate = new Date();
