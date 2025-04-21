@@ -120,6 +120,20 @@
                 <li>A new grid is generated daily, or you can edit the seed below this to create a custom grid.</li>
             </ol>
         </div>
+        <div id="custom-seed-panel" class="custom-seed-panel">
+            <div class="seed-header">
+                <h3>Custom Seed</h3>
+                <button id="toggle-seed-panel" onclick="toggleCustomSeedPanel()">+</button>
+            </div>
+            <div class="seed-content">
+                <p>Enter a custom seed to generate a specific grid:</p>
+                <div class="seed-input-container">
+                    <input type="text" id="custom-seed-input" placeholder="Enter seed...">
+                    <button id="apply-seed" onclick="handleCustomSeedSubmit()">Apply</button>
+                </div>
+                <p class="seed-warning">Warning: Using a custom seed will reset your current progress!</p>
+            </div>
+        </div>
         <p class="copyright">Created by Samuel Cardwell - 2025</p>
         <p class="copyright"><a href="https://bsky.app/profile/samcardwell44.bsky.social" target="_blank" rel="noopener noreferrer">Follow my work</a></p>
     </footer>

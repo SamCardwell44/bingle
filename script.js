@@ -57,6 +57,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 
 // Initialize the game
 function initializeGame() {
+
     //localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
@@ -68,14 +69,21 @@ function initializeGame() {
         day: 'numeric' 
     });    
 
-    // Set default seed to 'daily' if not already set
-    if (!customSeed) {
-        const seedName = `daily-${currentDate}-${gridSize}`;
-        customSeed = seedName;
+    // Check if customSeed is not set or is 'daily'
+    if (!customSeed || customSeed === 'daily') {
+        // Create a daily seed with format "daily" + YYYYMMDD + gridSize
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateString = `${year}${month}${day}`;
+        customSeed = `daily${dateString}${gridSize}`;
     }
     
     // Load saved progress if exists
     loadProgress();
+
+    initializeCustomSeedInput();
     
     // Generate grid based on today's date or custom seed
     generateDailyGrid();
@@ -85,7 +93,7 @@ function initializeGame() {
     
     // Load streak data
     loadStreakData();
-    
+
     // Event listeners
     gridSizeSelector.addEventListener('change', handleGridSizeChange);
     resetProgressButton.addEventListener('click', resetProgress);
@@ -106,30 +114,27 @@ function handleGridSizeChange() {
     // Update gridSize first
     gridSize = parseInt(gridSizeSelector.value);
     
-    // Check if we need to reset rerolls for this grid size
-    const saveKey = `bingleRerollData-${customSeed}-${gridSize}`;
-    const savedRerollData = localStorage.getItem(saveKey);
-    
-    if (savedRerollData) {
-        const rerollData = JSON.parse(savedRerollData);
-        // Only reset if there's no data for this specific seed+gridSize combination
-        if (rerollData.seed !== customSeed || rerollData.gridSize !== gridSize) {
-            resetRerollsForSeed(customSeed);
-        } else {
-            // Use the existing reroll count for this grid size and seed
-            rerollsRemaining = rerollData.rerollsRemaining;
-            lastRerollDate = rerollData.lastRerollDate;
-            updateRerollButton();
-        }
-    } else {
-        // No saved data, reset rerolls
-        resetRerollsForSeed(customSeed);
+    // If using daily seed, update it to include grid size
+    if (customSeed === 'daily' || isDailySeed(customSeed)) {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateString = `${year}${month}${day}`;
+        customSeed = `daily${dateString}${gridSize}`;
     }
-
-    loadTimerState();
-
+    
+    // Force regeneration by removing saved data
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+    localStorage.removeItem(saveKey);
+    
     // Generate the new grid
     generateDailyGrid();
+    
+    // Check reroll data
+    checkAndResetRerolls();
+    
+    // Update scores
     updateScoreDisplay();
 }
 
@@ -286,76 +291,77 @@ function assignDifficulties(rng) {
 
 // Generate a grid based on the current date as a seed
 function generateDailyGrid() {
-    // Clear the current grid
-    gameGrid.innerHTML = '';
-
-    if (isDailySeed(customSeed)) {
-        customSeed = 'daily';
-        const seedInput = document.getElementById('custom-seed-input');
-        if (seedInput) {
-            seedInput.value = 'daily';
+        // Clear the current grid
+        gameGrid.innerHTML = '';
+    
+        if (customSeed === 'daily') {
+            // Create a daily seed with format "daily" + YYYYMMDD + gridSize
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const dateString = `${year}${month}${day}`;
+            customSeed = `daily${dateString}${gridSize}`;
         }
-    }
-    
-    // Check if we have a saved grid for today and this seed+gridSize
-    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
-    const savedData = localStorage.getItem(saveKey);
-    let useExistingGrid = false;
-    
-    if (savedData) {
-        const data = JSON.parse(savedData);
-        const savedDate = new Date(data.lastUpdated);
-        const today = new Date();
         
-        if (savedDate.toDateString() === today.toDateString() && 
-            data.customSeed === customSeed && 
-            data.gridSize === gridSize &&
-            data.currentGrid && 
-            data.currentGrid.length > 0) {
+        // Check if we have a saved grid for today and this seed+gridSize
+        const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+        const savedData = localStorage.getItem(saveKey);
+        let useExistingGrid = false;
+        
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            const savedDate = new Date(data.lastUpdated);
+            const today = new Date();
             
-            // Use the saved grid if it exists for today with the same seed and grid size
-            currentGrid = data.currentGrid;
-            difficultyAssignments = data.difficultyAssignments || {};
-            useExistingGrid = true;
-        }
-    }
-    
-    // Only generate a new grid if we don't have a saved one
-    if (!useExistingGrid) {
-        // Use date or custom seed for consistent generation
-        const today = new Date();
-        let seed;
-        
-        if (customSeed) {
-            // Use custom seed if provided
-            seed = hashString(customSeed) + today.getDate() + gridSize * 13245;
-        } else {
-            // Use date as seed for consistent daily generation
-            seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate() + 1234 + gridSize * 13245;
-        }
-
-        // Pseudo-random number generator with seed
-        const seededRandom = function() {
-            let currentSeed = seed;
-            return function() {
-                currentSeed = (currentSeed * 9301 + 49297) % 233280;
-                return currentSeed / 233280;
-            };
-        }();
-        
-        // Shuffle games using seeded random
-        const shuffledGames = [...gamesList];
-        for (let i = shuffledGames.length - 1; i > 0; i--) {
-            const j = Math.floor(seededRandom() * (i + 1));
-            [shuffledGames[i], shuffledGames[j]] = [shuffledGames[i], shuffledGames[j]];
+            // Only use saved grid if it's from today AND has the exact same seed AND grid size
+            if (savedDate.toDateString() === today.toDateString() && 
+                data.customSeed === customSeed && 
+                data.gridSize === gridSize) {
+                
+                // Use the saved grid
+                currentGrid = data.currentGrid;
+                difficultyAssignments = data.difficultyAssignments || {};
+                useExistingGrid = true;
+            }
         }
         
-        // Select games for the grid
-        currentGrid = shuffledGames.slice(0, gridSize * gridSize);
-        
-        // Assign difficulties using the SAME seeded random generator
-        assignDifficulties(seededRandom);
-    }
+        // Only generate a new grid if we don't have a saved one
+        if (!useExistingGrid) {
+            // Generate unique seed value that's different for different grid sizes
+            let seed = hashString(customSeed) + (gridSize * 13245);
+            console.log("Using seed:", seed); // Debug output
+            
+            // Create a more robust seeded random function
+            const seededRandom = function() {
+                let s = seed;
+                return function() {
+                    s = Math.sin(s) * 10000;
+                    return s - Math.floor(s);
+                };
+            }();
+            
+            // Test the random generator
+            console.log("Random values:", [seededRandom(), seededRandom(), seededRandom()]); // Debug
+            
+            // Shuffle games using seeded random
+            const shuffledGames = [...gamesList];
+            console.log("Before shuffle:", shuffledGames.map(g => g.name).slice(0, 5)); // Debug
+            
+            for (let i = shuffledGames.length - 1; i > 0; i--) {
+                const j = Math.floor(seededRandom() * (i + 1));
+                [shuffledGames[i], shuffledGames[j]] = [shuffledGames[j], shuffledGames[i]];
+            }
+            
+            console.log("After shuffle:", shuffledGames.map(g => g.name).slice(0, 5)); // Debug
+            
+            // Select games for the grid
+            currentGrid = shuffledGames.slice(0, gridSize * gridSize);
+            console.log("Selected games:", currentGrid.map(g => g.name)); // Debug
+            
+            // Assign difficulties using the SAME seeded random generator
+            assignDifficulties(seededRandom);
+        }
     
     // Initialize game statuses and scores for new games
     currentGrid.forEach(game => {
@@ -901,18 +907,28 @@ function handleCustomSeedSubmit() {
     const seedValue = seedInput.value.trim();
     
     if (seedValue !== '') {
+        const oldSeed = customSeed; // Store old seed for comparison
         customSeed = seedValue;
         
-        // Reset game data when using a custom seed
-        gameStatuses = {};
-        gameScores = {};
+        console.log("Seed changed from", oldSeed, "to", customSeed); // Debug
         
-        // Reset rerolls based on the new seed and grid size
-        resetRerollsForSeed(customSeed);
+        // Force regeneration of the grid with new seed by clearing localStorage
+        if (oldSeed !== customSeed) {
+            console.log("Clearing old data due to seed change"); // Debug
+            gameStatuses = {};
+            gameScores = {};
+            
+            // Delete any saved grid data for this seed/size combination
+            const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+            localStorage.removeItem(saveKey);
+        }
         
         // Generate new grid with custom seed
         generateDailyGrid();
         updateScoreDisplay();
+        
+        // Reset rerolls based on the new seed and grid size
+        resetRerollsForSeed(customSeed);
         
         // Hide the custom seed panel after submission
         document.getElementById('custom-seed-panel').classList.remove('expanded');
@@ -1563,15 +1579,11 @@ function initializeTimer() {
 // Format time as MM:SS or HH:MM:SS
 function formatTime(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
+    const ms = Math.floor((milliseconds % 1000) / 10); // Get hundredths of seconds
     
-    if (hours > 0) {
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    } else {
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${ms.toString().padStart(2, '0')}`;
 }
 
 // Update timer display
@@ -1588,14 +1600,17 @@ function startTimer() {
         timerRunning = true;
         startTime = Date.now() - elapsedTime;
         
+        // Update timer interval to be faster for ms display
         timerInterval = setInterval(() => {
             elapsedTime = Date.now() - startTime;
             updateTimerDisplay();
-        }, 1000);
+        }, 10); // Update every 10ms for smoother ms display
         
         // Update UI
-        document.getElementById('start-timer').style.display = 'none';
-        document.getElementById('pause-timer').style.display = 'inline-block';
+        const startButton = document.getElementById('start-timer');
+        const pauseButton = document.getElementById('pause-timer');
+        if (startButton) startButton.style.display = 'none';
+        if (pauseButton) pauseButton.style.display = 'inline-block';
         
         // Save timer state
         saveTimerState();
