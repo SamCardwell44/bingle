@@ -138,6 +138,19 @@ function handleGridSizeChange() {
     updateScoreDisplay();
 }
 
+function createSeededRandom(seed) {
+    // Convert seed to a 32-bit integer
+    let initialSeed = typeof seed === 'string' ? hashString(seed) : Math.floor(seed);
+    
+    // Use a simple but more consistent algorithm (mulberry32)
+    return function() {
+        initialSeed = (initialSeed + 0x6D2B79F5) | 0;
+        let t = Math.imul(initialSeed ^ initialSeed >>> 15, 1 | initialSeed);
+        t = (t + Math.imul(t ^ t >>> 7, 61 | t)) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
 //Load streak data
 function loadStreakData() {
     const savedData = localStorage.getItem('bingleStreakData');
@@ -259,7 +272,7 @@ function getScoreValue(performance) {
 }
 
 // Assign difficulty levels to games in the grid
-function assignDifficulties(rng) {
+function assignDifficulties(seededRandomFunc) {
     const totalCells = gridSize * gridSize;
     const hardCount = Math.max(1, Math.floor(totalCells / 9));  // 1/9 of cells should be hard
     const mediumCount = Math.max(3, Math.floor(totalCells / 3)); // 3/9 of cells should be medium
@@ -279,7 +292,7 @@ function assignDifficulties(rng) {
     
     // Shuffle difficulties using the provided seeded random generator
     for (let i = difficulties.length - 1; i > 0; i--) {
-        const j = Math.floor(rng() * (i + 1));
+        const j = Math.floor(seededRandomFunc() * (i + 1));
         [difficulties[i], difficulties[j]] = [difficulties[j], difficulties[i]];
     }
     
@@ -291,78 +304,72 @@ function assignDifficulties(rng) {
 
 // Generate a grid based on the current date as a seed
 function generateDailyGrid() {
-        // Clear the current grid
-        gameGrid.innerHTML = '';
+    // Clear the current grid
+    gameGrid.innerHTML = '';
+
+    if (customSeed === 'daily') {
+        // Create a daily seed with format "daily" + YYYYMMDD + gridSize
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const dateString = `${year}${month}${day}`;
+        customSeed = `daily${dateString}${gridSize}`;
+    }
     
-        if (customSeed === 'daily') {
-            // Create a daily seed with format "daily" + YYYYMMDD + gridSize
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            const dateString = `${year}${month}${day}`;
-            customSeed = `daily${dateString}${gridSize}`;
-        }
-        
-        // Check if we have a saved grid for today and this seed+gridSize
-        const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
-        const savedData = localStorage.getItem(saveKey);
-        let useExistingGrid = false;
-        
-        if (savedData) {
-            const data = JSON.parse(savedData);
-            const savedDate = new Date(data.lastUpdated);
-            const today = new Date();
-            
-            // Only use saved grid if it's from today AND has the exact same seed AND grid size
-            if (savedDate.toDateString() === today.toDateString() && 
-                data.customSeed === customSeed && 
-                data.gridSize === gridSize) {
-                
-                // Use the saved grid
-                currentGrid = data.currentGrid;
-                difficultyAssignments = data.difficultyAssignments || {};
-                useExistingGrid = true;
-            }
-        }
-        
-        // Only generate a new grid if we don't have a saved one
-        if (!useExistingGrid) {
-            // Generate unique seed value that's different for different grid sizes
-            let seed = hashString(customSeed) + (gridSize * 13245);
-            console.log("Using seed:", seed); // Debug output
-            
-            // Create a more robust seeded random function
-            const seededRandom = function() {
-                let s = seed;
-                return function() {
-                    s = Math.sin(s) * 10000;
-                    return s - Math.floor(s);
-                };
-            }();
-            
-            // Test the random generator
-            console.log("Random values:", [seededRandom(), seededRandom(), seededRandom()]); // Debug
-            
-            // Shuffle games using seeded random
-            const shuffledGames = [...gamesList];
-            console.log("Before shuffle:", shuffledGames.map(g => g.name).slice(0, 5)); // Debug
-            
-            for (let i = shuffledGames.length - 1; i > 0; i--) {
-                const j = Math.floor(seededRandom() * (i + 1));
-                [shuffledGames[i], shuffledGames[j]] = [shuffledGames[j], shuffledGames[i]];
-            }
-            
-            console.log("After shuffle:", shuffledGames.map(g => g.name).slice(0, 5)); // Debug
-            
-            // Select games for the grid
-            currentGrid = shuffledGames.slice(0, gridSize * gridSize);
-            console.log("Selected games:", currentGrid.map(g => g.name)); // Debug
-            
-            // Assign difficulties using the SAME seeded random generator
-            assignDifficulties(seededRandom);
-        }
+    // Check if we have a saved grid for today and this seed+gridSize
+    const saveKey = `bingleGameData-${customSeed}-${gridSize}`;
+    const savedData = localStorage.getItem(saveKey);
+    let useExistingGrid = false;
     
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        const savedDate = new Date(data.lastUpdated);
+        const today = new Date();
+        
+        // Only use saved grid if it's from today AND has the exact same seed AND grid size
+        if (savedDate.toDateString() === today.toDateString() && 
+            data.customSeed === customSeed && 
+            data.gridSize === gridSize) {
+            
+            // Use the saved grid
+            currentGrid = data.currentGrid;
+            difficultyAssignments = data.difficultyAssignments || {};
+            useExistingGrid = true;
+        }
+    }
+    
+    // Only generate a new grid if we don't have a saved one
+    if (!useExistingGrid) {
+        // Generate unique seed value that's different for different grid sizes
+        let numericSeed = hashString(customSeed) + (gridSize * 13245);
+        console.log("Using seed:", numericSeed); // Debug output
+        
+        // Create consistent seeded random function
+        const seededRandom = createSeededRandom(numericSeed);
+        
+        // Test the random generator
+        console.log("Random values:", [seededRandom(), seededRandom(), seededRandom()]); // Debug
+        
+        // Shuffle games using seeded random
+        const shuffledGames = [...gamesList];
+        console.log("Before shuffle:", shuffledGames.map(g => g.name).slice(0, 5)); // Debug
+        
+        for (let i = shuffledGames.length - 1; i > 0; i--) {
+            const j = Math.floor(seededRandom() * (i + 1));
+            [shuffledGames[i], shuffledGames[j]] = [shuffledGames[j], shuffledGames[i]];
+        }
+        
+        console.log("After shuffle:", shuffledGames.map(g => g.name).slice(0, 5)); // Debug
+        
+        // Select games for the grid
+        currentGrid = shuffledGames.slice(0, gridSize * gridSize);
+        console.log("Selected games:", currentGrid.map(g => g.name)); // Debug
+        
+        // Assign difficulties using the SAME seeded random generator
+        assignDifficulties(seededRandom);
+    }
+
     // Initialize game statuses and scores for new games
     currentGrid.forEach(game => {
         if (!gameStatuses[game.id]) {
@@ -372,10 +379,10 @@ function generateDailyGrid() {
             gameScores[game.id] = null;
         }
     });
-    
+
     // Create grid layout CSS
     gameGrid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
-    
+
     // Create grid cells
     currentGrid.forEach(game => {
         const cell = document.createElement('div');
