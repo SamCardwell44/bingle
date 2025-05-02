@@ -9,7 +9,7 @@ const gamesList = [
         { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes6,5,4", category: "words" },
         { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75,50,30", category: "words" },
         { id: 9, name: "Gamedle Classic", url: "https://www.gamedle.wtf/classic", scoring: "guesses6,5,4", category: "games" },
-        { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3,2,1", category: "words" },
+        { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints2,1,0", category: "words" },
         { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3,2,1", category: "geography" },
         { id: 12, name: "Waffle", url: "https://wafflegame.net/", scoring: "guesses15,14,13", category: "words" },
         { id: 13, name: "Hexaguessr Daily", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6,5,4", category: "geography" },
@@ -59,7 +59,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 // Initialize the game
 function initializeGame() {
 
-    localStorage.clear(); // Uncomment this line to clear all local storage for testing
+    //localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
     const currentDate = new Date();
