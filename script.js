@@ -1,34 +1,35 @@
 // Game data with scoring metrics
 const gamesList = [
-    { id: 1, name: "Wordle", url: "https://www.nytimes.com/games/wordle", scoring: "guesses6", category: "words" },
-    { id: 2, name: "Worldle", url: "https://worldle.teuteuf.fr/", scoring: "guesses6", category: "geography" },
-    { id: 3, name: "Flagle", url: "https://www.flagle.io/", scoring: "guesses6", category: "geography" },
-    { id: 4, name: "Timeguessr", url: "https://timeguessr.com/roundonedaily", scoring: "points75000", category: "geography" },
-    { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points15000", category: "misc" },
-    { id: 6, name: "Framed", url: "https://framed.wtf/", scoring: "guesses6", category: "films" },
-    { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes4", category: "words" },
-    { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75", category: "words" },
-    { id: 9, name: "Gamedle Classic", url: "https://www.gamedle.wtf/classic", scoring: "guesses6", category: "games" },
-    { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3", category: "words" },
-    { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3", category: "geography" },
-    { id: 12, name: "Waffle", url: "https://wafflegame.net/", scoring: "guesses15", category: "words" },
-    { id: 13, name: "Hexaguessr Daily", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6", category: "geography" },
-    { id: 14, name: "Bandle", url: "https://bandle.app/daily", scoring: "guesses6", category: "words" },
-    { id: 15, name: "Globle", url: "https://globle-game.com/game", scoring: "guesses15", category: "geography" },
-    { id: 16, name: "Mathdle Easy", url: "https://lemononmars.github.io/mathdle/", scoring: "guesses6", category: "maths" },
-    { id: 17, name: "Gamedle Art", url: "https://www.gamedle.wtf/artwork", scoring: "guesses6", category: "games" },
-    { id: 18, name: "Colorfle", url: "https://colorfle.com/", scoring: "guesses6", category: "misc" },
-    { id: 19, name: "Facedle", url: "https://facedle.app/", scoring: "guesses6", category: "films" },
-    { id: 20, name: "Shaple", url: "https://swag.github.io/shaple/", scoring: "mistakes5", category: "misc" },
-    { id: 21, name: "Metazooa", url: "https://metazooa.com/play/game", scoring: "guesses20", category: "misc" },
-    { id: 22, name: "Realbirdfakebird", url: "https://realbirdfakebird.com/", scoring: "mistakes7", category: "misc" },
-    { id: 23, name: "Lyricle", url: "https://www.lyricle.app/", scoring: "guesses6", category: "music" },
-    { id: 24, name: "Flickle", url: "https://flickle.app/", scoring: "guesses6", category: "films" },
-    { id: 25, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6", category: "words" },
-    { id: 26, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes5", category: "words" },
-    { id: 27, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75", category: "misc" },
-    { id: 28, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6", category: "geography" },
-    { id: 29, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points15", category: "trivia" }
+    { id: 1, name: "Wordle", url: "https://www.nytimes.com/games/wordle", scoring: "guesses6,5,4", category: "words" },
+        { id: 2, name: "Worldle", url: "https://worldle.teuteuf.fr/", scoring: "guesses6,5,4", category: "geography" },
+        { id: 3, name: "Flagle", url: "https://www.flagle.io/", scoring: "guesses6,5,4", category: "geography" },
+        { id: 4, name: "Timeguessr", url: "https://timeguessr.com/roundonedaily", scoring: "points20000,30000,40000", category: "geography" },
+        { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points5000,10000,15000", category: "misc" },
+        { id: 6, name: "Framed", url: "https://framed.wtf/", scoring: "guesses6,5,4", category: "films" },
+        { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes6,5,4", category: "words" },
+        { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75,50,30", category: "words" },
+        { id: 9, name: "Gamedle Classic", url: "https://www.gamedle.wtf/classic", scoring: "guesses6,5,4", category: "games" },
+        { id: 10, name: "Strands", url: "https://www.nytimes.com/games/strands", scoring: "hints3,2,1", category: "words" },
+        { id: 11, name: "Flagpath", url: "https://www.flagpath.xyz/", scoring: "mistakes3,2,1", category: "geography" },
+        { id: 12, name: "Waffle", url: "https://wafflegame.net/", scoring: "guesses15,14,13", category: "words" },
+        { id: 13, name: "Hexaguessr Daily", url: "https://samuelcardwell.shinyapps.io/hexaguessr_app/", scoring: "guesses6,5,4", category: "geography" },
+        { id: 14, name: "Bandle", url: "https://bandle.app/daily", scoring: "guesses6,5,4", category: "words" },
+        { id: 15, name: "Globle", url: "https://globle-game.com/game", scoring: "guesses15,10,5", category: "geography" },
+        { id: 16, name: "Mathdle Easy", url: "https://lemononmars.github.io/mathdle/", scoring: "guesses6,5,4", category: "maths" },
+        { id: 17, name: "Gamedle Art", url: "https://www.gamedle.wtf/artwork", scoring: "guesses6,5,4", category: "games" },
+        { id: 18, name: "Colorfle", url: "https://colorfle.com/", scoring: "guesses6,5,4", category: "misc" },
+        { id: 19, name: "Facedle", url: "https://facedle.app/", scoring: "guesses6,5,4", category: "films" },
+        { id: 20, name: "Shaple", url: "https://swag.github.io/shaple/", scoring: "mistakes3,2,1", category: "misc" },
+        { id: 21, name: "Metazooa", url: "https://metazooa.com/play/game", scoring: "guesses20,15,10", category: "misc" },
+        { id: 22, name: "Realbirdfakebird", url: "https://realbirdfakebird.com/", scoring: "mistakes7,6,5", category: "misc" },
+        { id: 23, name: "Lyricle", url: "https://www.lyricle.app/", scoring: "guesses6,5,4", category: "music" },
+        { id: 24, name: "Flickle", url: "https://flickle.app/", scoring: "guesses6,5,4", category: "films" },
+        { id: 25, name: "Disorderly", url: "https://playdisorderly.com/", scoring: "guesses6,5,4", category: "words" },
+        { id: 26, name: "Spellcheck", url: "https://spellcheck.xyz/solo_game", scoring: "mistakes7,5,3", category: "words" },
+        { id: 27, name: "Redactle", url: "https://redactlegame.com/", scoring: "guesses75,50,25", category: "misc" },
+        { id: 28, name: "Tradle", url: "https://games.oec.world/en/tradle/", scoring: "guesses6,5,4", category: "geography" },
+        { id: 29, name: "Thrice", url: "https://thrice.geekswhodrink.com/", scoring: "points7,12,15", category: "trivia" },
+        { id: 30, name: "Scrandle", url: "https://scrandle.com/", scoring: "mistakes5,4,3", category: "misc" },
 ];
 
 // Game configuration
@@ -58,7 +59,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 // Initialize the game
 function initializeGame() {
 
-    //localStorage.clear(); // Uncomment this line to clear all local storage for testing
+    localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
     const currentDate = new Date();
@@ -183,42 +184,43 @@ function loadStreakData() {
 
 // Parse scoring string to get type and value
 function parseScoringString(scoringString) {
-    // Extract scoring type and maximum value
-    const type = scoringString.replace(/[0-9]/g, '');
-    const maxValue = parseInt(scoringString.replace(/[^0-9]/g, '')) || 0;
+    // Extract scoring type (letters) and values (numbers)
+    const type = scoringString.replace(/[0-9,]/g, '');
     
-    return { type, maxValue };
+    // Extract the values (comma separated numbers)
+    const values = scoringString.match(/[0-9]+/g) || [];
+    
+    // If we have a single value (old format), convert to new format
+    if (values.length === 1) {
+        const maxValue = parseInt(values[0]) || 0;
+        // Return an object with the same value for all difficulties
+        return {
+            type,
+            easy: maxValue,
+            medium: maxValue,
+            hard: maxValue,
+            maxValue // Keep for backward compatibility
+        };
+    }
+    
+    // New format with difficulty-specific values
+    return {
+        type,
+        easy: parseInt(values[0]) || 0,
+        medium: parseInt(values[1]) || 0,
+        hard: parseInt(values[2]) || 0,
+        // The max value depends on scoring type
+        maxValue: type === 'points' ? Math.max(...values.map(v => parseInt(v) || 0)) : parseInt(values[0]) || 0
+    };
 }
 
 // Get par value based on difficulty and scoring type
 function getParValue(game, difficulty) {
-    const { type, maxValue } = parseScoringString(game.scoring);
+    const scoringInfo = parseScoringString(game.scoring);
+    const { type } = scoringInfo;
     
-    let par;
-    
-    // Set par value based on scoring type
-    switch(type) {
-        case 'guesses':
-            // For guesses, lower is better
-            par = Math.ceil(maxValue * (difficulty === 'hard' ? 0.5 : difficulty === 'medium' ? 0.75 : 0.9));
-            break;
-        case 'points':
-            // For points, higher is better
-            par = Math.floor(maxValue * (difficulty === 'hard' ? 0.75 : difficulty === 'medium' ? 0.5 : 0.25));
-            break;
-        case 'mistakes':
-            // For mistakes, lower is better
-            par = Math.ceil(maxValue * (difficulty === 'hard' ? 0.25 : difficulty === 'medium' ? 0.5 : 0.75));
-            break;
-        case 'hints':
-            // For hints, lower is better
-            par = Math.ceil(maxValue * (difficulty === 'hard' ? 0.3 : difficulty === 'medium' ? 0.6 : 0.9));
-            break;
-        default:
-            par = Math.ceil(maxValue / 2);
-    }
-    
-    return par;
+    // Return the specific value for the difficulty
+    return scoringInfo[difficulty];
 }
 
 // Evaluate the score compared to par and maximum
@@ -226,40 +228,50 @@ function evaluateScore(game, score) {
     if (score === null || score === undefined) return 'unattempted';
     if (score === -1) return 'incomplete';
     
-    const { type, maxValue } = parseScoringString(game.scoring);
-    const par = getParValue(game, difficultyAssignments[game.id]);
+    const scoringInfo = parseScoringString(game.scoring);
+    const { type } = scoringInfo;
+    const difficulty = difficultyAssignments[game.id];
+    const par = scoringInfo[difficulty];
     
-    // For different scoring types, evaluation is different
+    // For different scoring types, evaluation logic is different
     switch(type) {
         case 'guesses':
             // Lower is better for guesses
             if (score <= 1) return 'flawless';  // First guess is flawless
             if (score <= par) return 'belowPar';
-            if (score <= maxValue) return 'abovePar';
+            // Each difficulty has its own threshold
+            if (difficulty === 'hard') {
+                if (score <= scoringInfo.hard) return 'abovePar';
+            } else if (difficulty === 'medium') {
+                if (score <= scoringInfo.medium) return 'abovePar';
+            } else {  // easy
+                if (score <= scoringInfo.easy) return 'abovePar';
+            }
             return 'incomplete';
         case 'points':
             // Higher is better for points
-            if (score >= maxValue) return 'flawless';
+            if (score >= scoringInfo.hard) return 'flawless'; // Hard value is the top score
             if (score >= par) return 'belowPar';
             if (score > 0) return 'abovePar';
             return 'incomplete';
         case 'mistakes':
-            // Lower is better for mistakes
-            if (score === 0) return 'flawless';  // No mistakes is flawless
-            if (score <= par) return 'belowPar';
-            if (score < maxValue) return 'abovePar';
-            return 'incomplete';
         case 'hints':
-            // Lower is better for hints
-            if (score === 0) return 'flawless';  // No hints is flawless
+            // Lower is better for mistakes and hints
+            if (score === 0) return 'flawless';  // No mistakes/hints is flawless
             if (score <= par) return 'belowPar';
-            if (score < maxValue) return 'abovePar';
+            // Each difficulty has its own threshold
+            if (difficulty === 'hard') {
+                if (score < scoringInfo.hard) return 'abovePar';
+            } else if (difficulty === 'medium') {
+                if (score < scoringInfo.medium) return 'abovePar';
+            } else {  // easy
+                if (score < scoringInfo.easy) return 'abovePar';
+            }
             return 'incomplete';
         default:
             return 'incomplete';
     }
 }
-
 // Get score value based on performance
 function getScoreValue(performance) {
     switch(performance) {
@@ -416,10 +428,10 @@ function generateDailyGrid() {
         
         let scoringTypeText = '';
         switch(type) {
-            case 'guesses': scoringTypeText = `Guesses (Par: ${par}, Max: ${maxValue})`; break;
-            case 'points': scoringTypeText = `Points (Par: ${par}, Max: ${maxValue})`; break;
-            case 'mistakes': scoringTypeText = `Mistakes (Par: ${par}, Max: ${maxValue})`; break;
-            case 'hints': scoringTypeText = `Hints (Par: ${par}, Max: ${maxValue})`; break;
+            case 'guesses': scoringTypeText = `Guesses (Par: ${par})`; break;
+            case 'points': scoringTypeText = `Points (Par: ${par})`; break;
+            case 'mistakes': scoringTypeText = `Mistakes (Par: ${par})`; break;
+            case 'hints': scoringTypeText = `Hints (Par: ${par})`; break;
             default: scoringTypeText = 'Score'; break;
         }
         
@@ -640,7 +652,51 @@ function calculateBonusPoints() {
     return bonusLines.length * gridSize;
 }
 
-// Update score display based on current statuses
+function updateScoreInput(input, game) {
+    const scoringInfo = parseScoringString(game.scoring);
+    const { type } = scoringInfo;
+    
+    input.min = type === 'points' ? '0' : '0';
+    
+    // Set the max value based on scoring type
+    switch(type) {
+        case 'points':
+            // For points, max should be the highest possible score (hard difficulty)
+            input.max = scoringInfo.hard.toString();
+            break;
+        case 'guesses':
+        case 'mistakes':
+        case 'hints':
+            // For these, max should be the easiest difficulty value
+            input.max = scoringInfo.easy.toString();
+            break;
+        default:
+            input.max = scoringInfo.maxValue.toString();
+    }
+    
+    // Update placeholder
+    input.placeholder = type === 'points' ? 'Points' : 
+                      type === 'guesses' ? 'Guesses' : 
+                      type === 'mistakes' ? 'Mistakes' : 'Hints';
+}
+
+function updateGridCellScoring() {
+    // For each cell in the grid
+    currentGrid.forEach(game => {
+        const cell = document.querySelector(`.grid-cell[data-game-id="${game.id}"]`);
+        if (cell) {
+            // Update the scoring info display
+            renderScoreInfo(cell, game);
+            
+            // Update the score input
+            const scoreInput = cell.querySelector('.score-input');
+            if (scoreInput) {
+                updateScoreInput(scoreInput, game);
+            }
+        }
+    });
+}
+
 // Update score display based on current statuses
 function updateScoreDisplay() {
     let flawlessCount = 0;
@@ -1178,6 +1234,180 @@ function handleRerollSelection(event) {
     }
 }
 
+function renderScoreInfo(cell, game) {
+    // Get the existing scoring info element or create a new one
+    let scoringInfo = cell.querySelector('.scoring-info');
+    if (!scoringInfo) {
+        scoringInfo = document.createElement('div');
+        scoringInfo.className = 'scoring-info';
+        cell.appendChild(scoringInfo);
+    }
+    
+    const scoringData = parseScoringString(game.scoring);
+    const { type } = scoringData;
+    const difficulty = difficultyAssignments[game.id];
+    const par = scoringData[difficulty];
+    
+    let scoringTypeText = '';
+    switch(type) {
+        case 'guesses': 
+            scoringTypeText = `Guesses (Par: ${par})`;
+            // Add additional info about the scoring ranges
+            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
+            break;
+        case 'points': 
+            scoringTypeText = `Points (Par: ${par})`;
+            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
+            break;
+        case 'mistakes': 
+            scoringTypeText = `Mistakes (Par: ${par})`;
+            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
+            break;
+        case 'hints': 
+            scoringTypeText = `Hints (Par: ${par})`;
+            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
+            break;
+        default: 
+            scoringTypeText = 'Score';
+            break;
+    }
+    
+    scoringInfo.textContent = scoringTypeText;
+}
+
+function createGridCell(game) {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+    cell.dataset.gameId = game.id;
+    
+    // Add difficulty class for styling
+    cell.classList.add(`difficulty-${difficultyAssignments[game.id]}`);
+    
+    const title = document.createElement('h3');
+    title.className = 'game-title';
+    title.textContent = game.name;
+    
+    const difficultyBadge = document.createElement('div');
+    difficultyBadge.className = `difficulty-badge ${difficultyAssignments[game.id]}`;
+    difficultyBadge.textContent = difficultyAssignments[game.id].charAt(0).toUpperCase() + difficultyAssignments[game.id].slice(1);
+    
+    const link = document.createElement('a');
+    link.className = 'game-link';
+    link.href = game.url;
+    link.target = '_blank';
+    link.textContent = 'Play Game';
+    
+    // Create scoring info display using the new function
+    const scoringInfo = document.createElement('div');
+    scoringInfo.className = 'scoring-info';
+    
+    // Create input container
+    const inputContainer = document.createElement('div');
+    inputContainer.className = 'input-container';
+    
+    // Create score input
+    const scoreInput = document.createElement('input');
+    scoreInput.type = 'number';
+    scoreInput.className = 'score-input';
+    
+    // Set the input properties using our new function
+    updateScoreInput(scoreInput, game);
+    
+    // Set the current value if it exists
+    scoreInput.value = gameScores[game.id] !== null && gameScores[game.id] !== undefined && gameScores[game.id] !== -1 ? 
+                     gameScores[game.id] : '';
+    
+    // Add input event listener (same as before)
+    scoreInput.addEventListener('input', () => {
+        let value = scoreInput.value.trim();
+        const oldStatus = gameStatuses[game.id];
+        
+        if (value === '') {
+            gameScores[game.id] = null;
+            gameStatuses[game.id] = 'unattempted';
+        } else {
+            value = parseInt(value, 10);
+            
+            if (isNaN(value)) {
+                scoreInput.value = '';
+                gameScores[game.id] = null;
+                gameStatuses[game.id] = 'unattempted';
+            } else {
+                gameScores[game.id] = value;
+                gameStatuses[game.id] = evaluateScore(game, value);
+            }
+        }
+        
+        // Update cell styling based on score
+        updateCellStyle(cell, game);
+        
+        // Update overall score
+        saveProgress();
+        updateScoreDisplay();
+        
+        // Check for newly completed lines (only if status improved)
+        const newStatus = gameStatuses[game.id];
+        if (isStatusImprovement(oldStatus, newStatus)) {
+            // Check for newly completed lines
+            checkAndAnimateCompletedLines();
+        }
+    });
+    
+    // Create incomplete button
+    const incompleteBtn = document.createElement('button');
+    incompleteBtn.className = 'incomplete-btn';
+    incompleteBtn.textContent = 'Mark Failed';
+    incompleteBtn.addEventListener('click', () => {
+        gameScores[game.id] = -1;
+        gameStatuses[game.id] = 'incomplete';
+        scoreInput.value = '';
+        scoreInput.disabled = true;
+        
+        // Update cell styling
+        updateCellStyle(cell, game);
+        
+        // Update overall score
+        saveProgress();
+        updateScoreDisplay();
+    });
+    
+    // Create reset button
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'reset-btn';
+    resetBtn.textContent = 'Reset';
+    resetBtn.addEventListener('click', () => {
+        gameScores[game.id] = null;
+        gameStatuses[game.id] = 'unattempted';
+        scoreInput.value = '';
+        scoreInput.disabled = false;
+        
+        // Update cell styling
+        updateCellStyle(cell, game);
+        
+        // Update overall score
+        saveProgress();
+        updateScoreDisplay();
+    });
+    
+    // Add elements to input container
+    inputContainer.appendChild(scoreInput);
+    inputContainer.appendChild(incompleteBtn);
+    inputContainer.appendChild(resetBtn);
+    
+    // Assemble cell
+    cell.appendChild(title);
+    cell.appendChild(difficultyBadge);
+    cell.appendChild(link);
+    
+    // Add scoring info and update it
+    cell.appendChild(scoringInfo);
+    renderScoreInfo(cell, game);
+    
+    cell.appendChild(inputContainer);
+    
+    return cell;
+}
+
 function renderGrid() {
     // Clear the current grid
     gameGrid.innerHTML = '';
@@ -1185,162 +1415,9 @@ function renderGrid() {
     // Create grid layout CSS
     gameGrid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
     
-    // Create grid cells using existing currentGrid data
+    // Create grid cells using our new function
     currentGrid.forEach(game => {
-        const cell = document.createElement('div');
-        cell.className = 'grid-cell';
-        cell.dataset.gameId = game.id;
-        
-        // Add difficulty class for styling
-        cell.classList.add(`difficulty-${difficultyAssignments[game.id]}`);
-        
-        const title = document.createElement('h3');
-        title.className = 'game-title';
-        title.textContent = game.name;
-        
-        const difficultyBadge = document.createElement('div');
-        difficultyBadge.className = `difficulty-badge ${difficultyAssignments[game.id]}`;
-        difficultyBadge.textContent = difficultyAssignments[game.id].charAt(0).toUpperCase() + difficultyAssignments[game.id].slice(1);
-        
-        const link = document.createElement('a');
-        link.className = 'game-link';
-        link.href = game.url;
-        link.target = '_blank';
-        link.textContent = 'Play Game';
-        
-        // Parse scoring info
-        const { type, maxValue } = parseScoringString(game.scoring);
-        const par = getParValue(game, difficultyAssignments[game.id]);
-        
-        // Create scoring info display
-        const scoringInfo = document.createElement('div');
-        scoringInfo.className = 'scoring-info';
-        
-        let scoringTypeText = '';
-        switch(type) {
-            case 'guesses': scoringTypeText = `Guesses (Par: ${par}, Max: ${maxValue})`; break;
-            case 'points': scoringTypeText = `Points (Par: ${par}, Max: ${maxValue})`; break;
-            case 'mistakes': scoringTypeText = `Mistakes (Par: ${par}, Max: ${maxValue})`; break;
-            case 'hints': scoringTypeText = `Hints (Par: ${par}, Max: ${maxValue})`; break;
-            default: scoringTypeText = 'Score'; break;
-        }
-        
-        scoringInfo.textContent = scoringTypeText;
-        
-        // Create input container
-        const inputContainer = document.createElement('div');
-        inputContainer.className = 'input-container';
-        
-        // Create score input
-        const scoreInput = document.createElement('input');
-        scoreInput.type = 'number';
-        scoreInput.min = type === 'points' ? '0' : '0';
-        scoreInput.max = maxValue.toString();
-        scoreInput.className = 'score-input';
-        scoreInput.placeholder = type === 'points' ? 'Points' : type === 'guesses' ? 'Guesses' : type === 'mistakes' ? 'Mistakes' : 'Hints';
-        scoreInput.value = gameScores[game.id] !== null && gameScores[game.id] !== undefined && gameScores[game.id] !== -1 ? gameScores[game.id] : '';
-        
-        // Add input event listener
-        scoreInput.addEventListener('input', () => {
-            let value = scoreInput.value.trim();
-            const oldStatus = gameStatuses[game.id];
-            
-            if (value === '') {
-                gameScores[game.id] = null;
-                gameStatuses[game.id] = 'unattempted';
-            } else {
-                value = parseInt(value, 10);
-                
-                if (isNaN(value)) {
-                    scoreInput.value = '';
-                    gameScores[game.id] = null;
-                    gameStatuses[game.id] = 'unattempted';
-                } else {
-                    gameScores[game.id] = value;
-                    gameStatuses[game.id] = evaluateScore(game, value);
-                }
-            }
-            
-            // Update cell styling based on score
-            updateCellStyle(cell, game);
-            
-            // Update overall score
-            saveProgress();
-            updateScoreDisplay();
-            
-            // Check for newly completed lines (only if status improved)
-            const newStatus = gameStatuses[game.id];
-            if (isStatusImprovement(oldStatus, newStatus)) {
-                // Clear previously recorded recently completed lines
-                recentlyCompletedLines = [];
-                
-                // Check for newly completed lines
-                const completedLines = checkForCompletedLines();
-                
-                // Animate only newly completed lines
-                if (completedLines.length > 0) {
-                    animateCompletedLines(completedLines);
-                    
-                    // Record these lines as recently completed
-                    recentlyCompletedLines = completedLines;
-                }
-            }
-        });
-        
-        // Create incomplete button
-        const incompleteBtn = document.createElement('button');
-        incompleteBtn.className = 'incomplete-btn';
-        incompleteBtn.textContent = 'Mark Failed';
-        incompleteBtn.addEventListener('click', () => {
-            const oldStatus = gameStatuses[game.id];
-            
-            gameScores[game.id] = -1;
-            gameStatuses[game.id] = 'incomplete';
-            scoreInput.value = '';
-            scoreInput.disabled = true;
-            
-            // Update cell styling
-            updateCellStyle(cell, game);
-            
-            // Update overall score
-            saveProgress();
-            updateScoreDisplay();
-            
-            // No need to check for completed lines when marking as incomplete
-        });
-        
-        // Create reset button
-        const resetBtn = document.createElement('button');
-        resetBtn.className = 'reset-btn';
-        resetBtn.textContent = 'Reset';
-        resetBtn.addEventListener('click', () => {
-            gameScores[game.id] = null;
-            gameStatuses[game.id] = 'unattempted';
-            scoreInput.value = '';
-            scoreInput.disabled = false;
-            
-            // Update cell styling
-            updateCellStyle(cell, game);
-            
-            // Update overall score
-            saveProgress();
-            updateScoreDisplay();
-            
-            // No need to check for completed lines when resetting
-        });
-        
-        // Add elements to input container
-        inputContainer.appendChild(scoreInput);
-        inputContainer.appendChild(incompleteBtn);
-        inputContainer.appendChild(resetBtn);
-        
-        // Assemble cell
-        cell.appendChild(title);
-        cell.appendChild(difficultyBadge);
-        cell.appendChild(link);
-        cell.appendChild(scoringInfo);
-        cell.appendChild(inputContainer);
-        
+        const cell = createGridCell(game);
         gameGrid.appendChild(cell);
         
         // Set initial cell styling
@@ -1351,6 +1428,7 @@ function renderGrid() {
     saveProgress();
     updateScoreDisplay();
 }
+
 
 
 //Animate completion
