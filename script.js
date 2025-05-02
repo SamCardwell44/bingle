@@ -1252,20 +1252,15 @@ function renderScoreInfo(cell, game) {
     switch(type) {
         case 'guesses': 
             scoringTypeText = `Guesses (Par: ${par})`;
-            // Add additional info about the scoring ranges
-            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
             break;
         case 'points': 
             scoringTypeText = `Points (Par: ${par})`;
-            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
             break;
         case 'mistakes': 
             scoringTypeText = `Mistakes (Par: ${par})`;
-            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
             break;
         case 'hints': 
             scoringTypeText = `Hints (Par: ${par})`;
-            scoringTypeText += ` [E:${scoringData.easy}, M:${scoringData.medium}, H:${scoringData.hard}]`;
             break;
         default: 
             scoringTypeText = 'Score';
