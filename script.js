@@ -59,7 +59,7 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 // Initialize the game
 function initializeGame() {
 
-    //localStorage.clear(); // Uncomment this line to clear all local storage for testing
+    localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
     const currentDate = new Date();
@@ -453,6 +453,7 @@ function generateDailyGrid() {
         // Add input event listener
         scoreInput.addEventListener('input', () => {
             let value = scoreInput.value.trim();
+            const oldStatus = gameStatuses[game.id];
             
             if (value === '') {
                 gameScores[game.id] = null;
@@ -466,7 +467,24 @@ function generateDailyGrid() {
                     gameStatuses[game.id] = 'unattempted';
                 } else {
                     gameScores[game.id] = value;
-                    gameStatuses[game.id] = evaluateScore(game, value);
+                    const newStatus = evaluateScore(game, value);
+                    gameStatuses[game.id] = newStatus;
+                    
+                    // Find the cell position
+                    const cellIndex = currentGrid.findIndex(g => g.id === game.id);
+                    if (cellIndex !== -1) {
+                        const row = Math.floor(cellIndex / gridSize);
+                        const col = cellIndex % gridSize;
+                        
+                        // Always check for completed lines when score changes
+                        // Regardless of whether status improved or not
+                        if (newStatus === 'flawless' || newStatus === 'belowPar' || newStatus === 'abovePar') {
+                            // Clear recently completed lines for this cell
+                            clearRecentCompletedLinesForCell(row, col);
+                            // Then check if the lines are now complete
+                            checkAndAnimateCompletedLinesForCell(row, col);
+                        }
+                    }
                 }
             }
             
@@ -490,6 +508,14 @@ function generateDailyGrid() {
             
             // Update cell styling
             updateCellStyle(cell, game);
+            
+            // Find the cell position to clear completed lines data
+            const cellIndex = currentGrid.findIndex(g => g.id === game.id);
+            if (cellIndex !== -1) {
+                const row = Math.floor(cellIndex / gridSize);
+                const col = cellIndex % gridSize;
+                clearRecentCompletedLinesForCell(row, col);
+            }
             
             // Update overall score
             saveProgress();
@@ -731,8 +757,8 @@ function updateScoreDisplay() {
         }
     });
     
-    // Check for and animate completed lines
-    const completedLines = checkAndAnimateCompletedLines();
+    // Calculate completed lines for bonus points, but don't animate them
+    const completedLines = checkForCompletedLines(); // This just checks without animating
     
     // Calculate bonus points for completed lines
     const bonusPoints = completedLines.length * gridSize;
@@ -1335,17 +1361,22 @@ function createGridCell(game) {
         
         // Update cell styling based on score
         updateCellStyle(cell, game);
+    
+    // Update overall score
+    saveProgress();
+    updateScoreDisplay();
+    
+    // Check for newly completed lines (only if status improved)
+    const newStatus = gameStatuses[game.id];
+    if (isStatusImprovement(oldStatus, newStatus)) {
+        // Find the index of this cell in the grid
+        const cellIndex = currentGrid.findIndex(g => g.id === game.id);
+        const row = Math.floor(cellIndex / gridSize);
+        const col = cellIndex % gridSize;
         
-        // Update overall score
-        saveProgress();
-        updateScoreDisplay();
-        
-        // Check for newly completed lines (only if status improved)
-        const newStatus = gameStatuses[game.id];
-        if (isStatusImprovement(oldStatus, newStatus)) {
-            // Check for newly completed lines
-            checkAndAnimateCompletedLines();
-        }
+        // Check if any lines this cell belongs to are now complete
+        checkAndAnimateCompletedLinesForCell(row, col);
+    }
     });
     
     // Create incomplete button
@@ -1425,20 +1456,186 @@ function renderGrid() {
 }
 
 
+//Check which lines a specific cell belongs to
+function getLinesForCell(row, col) {
+    const lines = [];
+    
+    // Check if this cell completes a row
+    const rowLine = {
+        type: 'row',
+        index: row,
+        key: `row-${row}`,
+        cells: []
+    };
+    
+    // Check if this cell completes a column
+    const colLine = {
+        type: 'column',
+        index: col,
+        key: `col-${col}`,
+        cells: []
+    };
+    
+    // Add row and column to potential lines
+    lines.push(rowLine);
+    lines.push(colLine);
+    
+    // Check if this cell is on the main diagonal (top-left to bottom-right)
+    if (row === col) {
+        lines.push({
+            type: 'diagonal',
+            index: 'main',
+            key: 'diag-main',
+            cells: []
+        });
+    }
+    
+    // Check if this cell is on the anti-diagonal (top-right to bottom-left)
+    if (row + col === gridSize - 1) {
+        lines.push({
+            type: 'diagonal',
+            index: 'other',
+            key: 'diag-other',
+            cells: []
+        });
+    }
+    
+    return lines;
+}
+
+function clearRecentCompletedLinesForCell(row, col) {
+    // Get all potential lines this cell belongs to
+    const potentialLines = getLinesForCell(row, col);
+    
+    // Remove these lines from the recentlyCompletedLines array
+    potentialLines.forEach(line => {
+        const lineKey = line.key;
+        // Filter out any lines that match this key
+        recentlyCompletedLines = recentlyCompletedLines.filter(
+            completedLine => completedLine.key !== lineKey
+        );
+    });
+}
 
 //Animate completion
-function checkAndAnimateCompletedLines() {
-    // Get the completed lines
-    const completedLines = checkForCompletedLines();
+function checkAndAnimateCompletedLinesForCell(row, col) {
+    // Get potential lines this cell belongs to
+    const potentialLines = getLinesForCell(row, col);
+    const completedLines = [];
     
-    // Animate them if they haven't been animated recently
+    // Check each potential line to see if it's complete
+    potentialLines.forEach(line => {
+        let isComplete = true;
+        const cellsInLine = [];
+        
+        if (line.type === 'row') {
+            // Check if all cells in this row are complete
+            for (let c = 0; c < gridSize; c++) {
+                const index = row * gridSize + c;
+                if (index >= currentGrid.length) continue;
+                
+                const gameId = currentGrid[index].id;
+                const status = gameStatuses[gameId];
+                
+                if (status === 'unattempted' || status === 'incomplete') {
+                    isComplete = false;
+                    break;
+                }
+                
+                const cell = document.querySelector(`.grid-cell[data-game-id="${gameId}"]`);
+                if (cell) cellsInLine.push(cell);
+            }
+        } else if (line.type === 'column') {
+            // Check if all cells in this column are complete
+            for (let r = 0; r < gridSize; r++) {
+                const index = r * gridSize + col;
+                if (index >= currentGrid.length) continue;
+                
+                const gameId = currentGrid[index].id;
+                const status = gameStatuses[gameId];
+                
+                if (status === 'unattempted' || status === 'incomplete') {
+                    isComplete = false;
+                    break;
+                }
+                
+                const cell = document.querySelector(`.grid-cell[data-game-id="${gameId}"]`);
+                if (cell) cellsInLine.push(cell);
+            }
+            
+            // Sort cells from top to bottom for column animation
+            cellsInLine.sort((a, b) => {
+                const indexA = Array.from(gameGrid.children).indexOf(a);
+                const indexB = Array.from(gameGrid.children).indexOf(b);
+                return indexA - indexB;
+            });
+        } else if (line.type === 'diagonal') {
+            if (line.index === 'main') {
+                // Check main diagonal (top-left to bottom-right)
+                for (let i = 0; i < gridSize; i++) {
+                    const index = i * gridSize + i;
+                    if (index >= currentGrid.length) continue;
+                    
+                    const gameId = currentGrid[index].id;
+                    const status = gameStatuses[gameId];
+                    
+                    if (status === 'unattempted' || status === 'incomplete') {
+                        isComplete = false;
+                        break;
+                    }
+                    
+                    const cell = document.querySelector(`.grid-cell[data-game-id="${gameId}"]`);
+                    if (cell) cellsInLine.push(cell);
+                }
+            } else if (line.index === 'other') {
+                // Check anti-diagonal (top-right to bottom-left)
+                for (let i = 0; i < gridSize; i++) {
+                    const index = i * gridSize + (gridSize - 1 - i);
+                    if (index >= currentGrid.length) continue;
+                    
+                    const gameId = currentGrid[index].id;
+                    const status = gameStatuses[gameId];
+                    
+                    if (status === 'unattempted' || status === 'incomplete') {
+                        isComplete = false;
+                        break;
+                    }
+                    
+                    const cell = document.querySelector(`.grid-cell[data-game-id="${gameId}"]`);
+                    if (cell) cellsInLine.push(cell);
+                }
+            }
+        }
+        
+        if (isComplete && cellsInLine.length > 0) {
+            // Check if this line was already completed and recorded
+            const lineKey = line.key;
+            if (!isLineAlreadyCompleted(lineKey)) {
+                line.cells = cellsInLine;
+                completedLines.push(line);
+                
+                // Record this line as completed
+                recentlyCompletedLines.push({
+                    type: line.type,
+                    index: line.index,
+                    key: lineKey
+                });
+                
+                // Limit the size of recentlyCompletedLines to avoid memory growth
+                if (recentlyCompletedLines.length > 20) {
+                    recentlyCompletedLines.shift();
+                }
+            }
+        }
+    });
+    
+    // Animate the newly completed lines
     if (completedLines.length > 0) {
         animateCompletedLines(completedLines);
     }
     
     return completedLines;
 }
-
 // Function to determine if a status change is an improvement
 function isStatusImprovement(oldStatus, newStatus) {
     const statusRank = {
