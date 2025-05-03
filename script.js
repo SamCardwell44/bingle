@@ -4,7 +4,7 @@ const gamesList = [
         { id: 2, name: "Worldle", url: "https://worldle.teuteuf.fr/", scoring: "guesses6,5,4", category: "geography" },
         { id: 3, name: "Flagle", url: "https://www.flagle.io/", scoring: "guesses6,5,4", category: "geography" },
         { id: 4, name: "Timeguessr", url: "https://timeguessr.com/roundonedaily", scoring: "points20000,30000,40000", category: "geography" },
-        { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points5000,10000,15000", category: "misc" },
+        { id: 5, name: "Foodguessr", url: "https://www.foodguessr.com/game/daily", scoring: "points5000,7500,10000", category: "misc" },
         { id: 6, name: "Framed", url: "https://framed.wtf/", scoring: "guesses6,5,4", category: "films" },
         { id: 7, name: "Connections", url: "https://www.nytimes.com/games/connections", scoring: "mistakes6,5,4", category: "words" },
         { id: 8, name: "Semantle Junior", url: "https://semantle.com/junior", scoring: "guesses75,50,30", category: "words" },
