@@ -17,6 +17,16 @@
         <div class="running-score">
             <h1>Current Score: <span id="total-score">0</span></h1>
         </div>
+        <div class="timer-container">
+            <div class="timer-display-container">
+                <span id="timer-display">00:00</span>
+            </div>
+            <div class="timer-controls">
+                <button id="start-timer" class="timer-button">Start</button>
+                <button id="pause-timer" class="timer-button" style="display: none;">Pause</button>
+                <button id="reset-timer" class="timer-button">Reset</button>
+            </div>
+        </div>
         <div class="controls">
             <div class="grid-size">
                 <label for="grid-size-selector">Grid Size:</label>
@@ -39,16 +49,7 @@
           </div>
         
 
-        <div class="timer-container">
-            <div class="timer-display-container">
-                <span id="timer-display">00:00</span>
-            </div>
-            <div class="timer-controls">
-                <button id="start-timer" class="timer-button">Start</button>
-                <button id="pause-timer" class="timer-button" style="display: none;">Pause</button>
-                <button id="reset-timer" class="timer-button">Reset</button>
-            </div>
-        </div>
+        
 
         <div class="controls bottom">
             <button id="reset-progress">Reset Progress</button>

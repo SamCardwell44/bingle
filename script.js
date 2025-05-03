@@ -58,7 +58,6 @@ const dailyBonusDisplay = document.getElementById('daily-bonus');
 
 // Initialize the game
 function initializeGame() {
-
     //localStorage.clear(); // Uncomment this line to clear all local storage for testing
 
     // Display current date
@@ -1632,6 +1631,7 @@ function checkAndAnimateCompletedLinesForCell(row, col) {
     // Animate the newly completed lines
     if (completedLines.length > 0) {
         animateCompletedLines(completedLines);
+        pauseTimer();
     }
     
     return completedLines;
@@ -1962,7 +1962,13 @@ function loadTimerState() {
         } else {
             // It's a new day, reset timer
             resetTimer();
+            // Auto-start for a new day
+            startTimer();
         }
+    } else {
+        // No saved timer state found - this is a first visit
+        // Auto-start the timer
+        startTimer();
     }
 }
 
